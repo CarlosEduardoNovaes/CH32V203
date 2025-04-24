@@ -1,0 +1,101 @@
+
+bin/firmware.elf:     file format elf32-littleriscv
+
+SYMBOL TABLE:
+00000000 l    d  .init	00000000 .init
+0000003c l    d  .vector	00000000 .vector
+00000138 l    d  .text	00000000 .text
+00000250 l    d  .fini	00000000 .fini
+20000000 l    d  .dalign	00000000 .dalign
+00000250 l    d  .dlalign	00000000 .dlalign
+20000000 l    d  .data	00000000 .data
+20000008 l    d  .bss	00000000 .bss
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_rnglists	00000000 .debug_rnglists
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_line_str	00000000 .debug_line_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
+00000000 l    d  .debug_frame	00000000 .debug_frame
+20000000 l     O .data	00000004 _ZZ4mainE5var_a
+20000004 l     O .data	00000004 _ZZ4mainE5var_b
+00000138 l     F .text	00000020 main
+00000158 l     F .text	00000090 __libc_init_array
+00000250 l       .fini	00000000 __init_array_end
+00000250 l       .fini	00000000 __preinit_array_end
+00000250 l       .fini	00000000 __init_array_start
+00000250 l       .fini	00000000 __preinit_array_start
+0000024c g     F .text	00000004 EXTI2_IRQHandler
+000002dc  w      .debug_info	00000000 .hidden main.cxx.51280cb6
+000001e8 g     F .text	00000064 reset_handler
+20000800 g       .data	00000000 __global_pointer$
+0000024c g     F .text	00000004 TIM1_CC_IRQHandler
+0000024c g     F .text	00000004 HardFault_Handler
+0000024c g     F .text	00000004 SysTick_Handler
+0000024c g     F .text	00000004 PVD_IRQHandler
+0000024c g     F .text	00000004 NMI_Handler
+0000024c g     F .text	00000004 EXTI3_IRQHandler
+00000008 g     O .init	00000034 init_data
+0000024c g     F .text	00000004 EXTI0_IRQHandler
+0000024c g     F .text	00000004 I2C2_EV_IRQHandler
+00000000 g     F .init	00000006 jump_reset
+0000003c g       .init	00000000 _einit
+0000024c g     F .text	00000004 ADC1_2_IRQHandler
+0000024c g     F .text	00000004 Break_Point_Handler
+0000024c g     F .text	00000004 SPI1_IRQHandler
+0000024c g     F .text	00000004 TAMPER_IRQHandler
+0000024c g     F .text	00000004 Ecall_M_Mode_Handler
+0000024c g     F .text	00000004 default_handler
+0000024c g     F .text	00000004 DMA1_Channel4_IRQHandler
+0000024c g     F .text	00000004 USART3_IRQHandler
+0000024c g     F .text	00000004 RTC_IRQHandler
+0000024c g     F .text	00000004 DMA1_Channel7_IRQHandler
+0000024c g     F .text	00000004 CAN1_RX1_IRQHandler
+0000024c g     F .text	00000004 TIM4_IRQHandler
+0000024c g     F .text	00000004 I2C1_EV_IRQHandler
+0000024c g     F .text	00000004 USBHD_IRQHandler
+0000024c g     F .text	00000004 DMA1_Channel6_IRQHandler
+0000024c g     F .text	00000004 UART4_IRQHandler
+0000024c g     F .text	00000004 TIM3_IRQHandler
+0000024c g     F .text	00000004 RCC_IRQHandler
+0000024c g     F .text	00000004 TIM1_TRG_COM_IRQHandler
+0000024c g     F .text	00000004 DMA1_Channel1_IRQHandler
+0000024c g     F .text	00000004 EXTI15_10_IRQHandler
+0000024c g     F .text	00000004 DMA1_Channel8_IRQHandler
+20000000 g       .dalign	00000000 _data_vma
+0000024c g     F .text	00000004 EXTI9_5_IRQHandler
+0000024c g     F .text	00000004 SPI2_IRQHandler
+0000037f  w      .debug_info	00000000 .hidden system.cxx.eda0a02a
+0000024c g     F .text	00000004 DMA1_Channel5_IRQHandler
+0000024c g     F .text	00000004 EXTI4_IRQHandler
+0000024c g     F .text	00000004 USB_LP_CAN1_RX0_IRQHandler
+0000024c g     F .text	00000004 USB_HP_CAN1_TX_IRQHandler
+00000000 g       .init	00000000 _sinit
+0000024c g     F .text	00000004 USBHDWakeUp_IRQHandler
+0000024c g     F .text	00000004 DMA1_Channel3_IRQHandler
+0000024c g     F .text	00000004 TIM1_UP_IRQHandler
+0000024c g     F .text	00000004 WWDG_IRQHandler
+0000024c g     F .text	00000004 Ecall_U_Mode_Handler
+0000024c g     F .text	00000004 TIM2_IRQHandler
+20002800 g       .data	00000000 _eusrstack
+0000024c g     F .text	00000004 SW_Handler
+0000024c g     F .text	00000004 TIM1_BRK_IRQHandler
+0000024c g     F .text	00000004 EXTI1_IRQHandler
+20000008 g       .data	00000000 _edata
+0000024c g     F .text	00000004 RTCAlarm_IRQHandler
+00000250 g       .dlalign	00000000 _data_lma
+0000024c g     F .text	00000004 USART2_IRQHandler
+0000024c g     F .text	00000004 I2C2_ER_IRQHandler
+0000024c g     F .text	00000004 DMA1_Channel2_IRQHandler
+00000b71  w      .debug_info	00000000 .hidden startup_ch32v203.c.f2a871ac
+0000024c g     F .text	00000004 CAN1_SCE_IRQHandler
+0000024c g     F .text	00000004 FLASH_IRQHandler
+0000003c g     O .vector	000000fc vectors
+0000024c g     F .text	00000004 USART1_IRQHandler
+0000024c g     F .text	00000004 I2C1_ER_IRQHandler
+0000024c g     F .text	00000004 USBWakeUp_IRQHandler
+
+
