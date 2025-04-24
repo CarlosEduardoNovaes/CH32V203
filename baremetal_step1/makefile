@@ -53,7 +53,7 @@ CLEAN    = rm -f *.lst *.obj *.cof *.list *.map *.eep.hex *.o *.d
 CFLAGS   	= -g -O0 -flto -ffunction-sections -fdata-sections -fno-builtin -nostdlib
 CFLAGS  	+= $(CPUARCH) -DF_CPU=$(F_CPU) -I$(NEWLIB) -I$(INCLUDE) -I$(SRC_DIRS) -I. -Wall
 CXXFLAGS   	= -g -O0 -flto -ffunction-sections -fdata-sections -fno-builtin -nostdlib
-CXXFLAGS  	+= $(CPUARCH) -DF_CPU=$(F_CPU) -I$(NEWLIB) -I$(INCLUDE) -I$(SRC_DIRS) -I. -Wall -fno-exceptions -fno-rtti -fmodules-ts
+CXXFLAGS  	+= $(CPUARCH) -DF_CPU=$(F_CPU) -I$(NEWLIB) -I$(INCLUDE) -I$(SRC_DIRS) -I. -Wall -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts
 LDFLAGS  	= -T$(STARTUP)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
 SRCFILES   	= $(wildcard $(SRC_DIRS)/*.cxx) $(wildcard $(SRC_DIRS)/*.cpp)
 
