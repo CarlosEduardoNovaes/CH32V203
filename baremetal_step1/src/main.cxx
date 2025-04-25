@@ -30,9 +30,9 @@
 // Libraries, Definitions and Macros
 // ===================================================================================
 #include <system.h>                               // system functions
-//#include <gpio.h>                                 // GPIO functions
 
-//#define PIN_LED PB1                               // define LED pin
+
+import add; // importa o módulo "add"
 
 
 
@@ -51,6 +51,6 @@ int main(void) {
   //  DLY_ms(100);                                  // wait a bit
   //}
   //var_a = 2;
-  var_b = var_a;
+  var_b = add(var_a, var_b);
   return 0;
 }
