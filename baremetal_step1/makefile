@@ -50,12 +50,20 @@ ISPTOOL  = chprog $(BIN)/$(TARGET).bin
 CLEAN    = rm -f *.lst *.obj *.cof *.list *.map *.eep.hex *.o *.d
 
 # Compiler Flags
-CFLAGS   	= -g -O0 -flto -ffunction-sections -fdata-sections -fno-builtin -nostdlib
+CFLAGS   	= -g -O3 -flto -ffunction-sections -fdata-sections -fno-builtin -nostdlib
 CFLAGS  	+= $(CPUARCH) -DF_CPU=$(F_CPU) -I$(NEWLIB) -I$(INCLUDE) -I$(SRC_DIRS) -I. -Wall
-CXXFLAGS   	= -g -O0 -flto -ffunction-sections -fdata-sections -fno-builtin -nostdlib
+CXXFLAGS   	= -g -O3 -flto -ffunction-sections -fdata-sections -fno-builtin -nostdlib
 CXXFLAGS  	+= $(CPUARCH) -DF_CPU=$(F_CPU) -I$(NEWLIB) -I$(INCLUDE) -I$(SRC_DIRS) -I. -Wall -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts
 LDFLAGS  	= -T$(STARTUP)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
-SRCFILES   	= $(wildcard $(SRC_DIRS)/*.cxx) $(wildcard $(SRC_DIRS)/*.cpp)
+SRCFILES   	= src/main.cxx src/system.cxx
+
+# Arquivos de módulos
+MODULE_SRCS = src/add.cxxm
+
+# Geração dos arquivos .o correspondentes na pasta build
+MODULE_OBJS = $(BUILD)/add.o
+
+
 
 # Symbolic Targets
 help:
@@ -68,16 +76,21 @@ help:
 	@echo "make clean     remove all build files"
 
 
+$(BUILD)/add.o: src/add.cxxm
+	@echo "Building $@ ..."
+	$(CXX) $(CXXFLAGS) -x c++ -c $< -o $@
+
+
 
 $(BUILD)/startup.o: $(STARTUP)/$(STARTUP_SRC).c
 	@echo "Building $@ ..."
 	@mkdir -p $(BUILD)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BIN)/$(TARGET).elf:  $(SRCFILES) $(BUILD)/startup.o
+$(BIN)/$(TARGET).elf:  $(SRCFILES) $(MODULE_OBJS) $(BUILD)/startup.o
 	@echo "Building $(BIN)/$(TARGET).elf ..."
 	@mkdir -p $(BIN)
-	$(CXX) -o $@ $^ $(CXXFLAGS) $(LDFLAGS)
+	$(CXX) -o $@ $^ $(LDFLAGS) $(CXXFLAGS) 
 
 $(BIN)/$(TARGET).lst: $(BIN)/$(TARGET).elf
 	@echo "Building $(BIN)/$(TARGET).lst ..."
@@ -112,6 +125,8 @@ print:
 	@echo "STARTUP: $(STARTUP)"
 	@echo "SRC_DIRS: $(SRC_DIRS)"
 	@echo "INCLUDE: $(INCLUDE)"
+	@echo "MODULE_SRCS: $(MODULE_SRCS)"
+	@echo "MODULE_OBJS: $(MODULE_OBJS)"
 
 
 all:	$(BIN)/$(TARGET).lst $(BIN)/$(TARGET).map $(BIN)/$(TARGET).bin $(BIN)/$(TARGET).hex $(BIN)/$(TARGET).asm size
