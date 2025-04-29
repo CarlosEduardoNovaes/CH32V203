@@ -1,10 +1,10 @@
-module;
+
 #include <cstdint>
 #include <type_traits>
+#include <iostream>
 
-export module bitfield;
 
-export template<
+template<
     class           TP_RegType,
     TP_RegType*     TP_Addr // for testing fake registers
     //uintptr_t       TP_Addr, // for real use
@@ -71,7 +71,7 @@ class RegisterOperation
     
 };
 
-export template<
+template<
     class           TP_RegType,
     TP_RegType*     TP_Addr, // for testing fake registers
     //uintptr_t       TP_Addr, // for real use
@@ -116,7 +116,7 @@ class BitView
 
 
 // Specialized aliases
-export template<
+template<
     uint32_t*     TP_Addr, // for testing fake registers
     //uintptr_t       TP_Addr, // for real use
     int8_t          TP_Offset,
@@ -125,7 +125,7 @@ export template<
 >
 using BitView32 = BitView<uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
 
-export template<
+template<
     uint16_t*     TP_Addr, // for testing fake registers
     //uintptr_t       TP_Addr, // for real use
     int8_t          TP_Offset,
@@ -134,7 +134,7 @@ export template<
 >
 using BitView16 = BitView<uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
 
-export template<
+template<
     uint8_t*     TP_Addr, // for testing fake registers
     //uintptr_t       TP_Addr, // for real use
     int8_t          TP_Offset,
@@ -142,3 +142,56 @@ export template<
     class           TP_FieldType = uint8_t
 >
 using BitView8 = BitView<uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
+
+
+
+
+
+template<uint32_t* TP_Addr>
+class Register{
+public:
+    // Constructor
+    Register() = default;
+
+    // Destructor
+    ~Register() = default;
+
+    BitView32<TP_Addr, 0, 4> field0;
+    BitView32<TP_Addr, 4, 4> field1;
+    BitView32<TP_Addr, 8, 4> field2;
+    BitView32<TP_Addr, 12, 1> status;
+};
+
+
+
+
+
+static uint32_t fake_reg = 1024;
+
+Register<&fake_reg> myreg;
+
+int main() 
+{ 
+    // calling the add function from the math module 
+    //int result = add(3, 5); 
+  
+    // calling the multiply function from the math module 
+    //result = multiply(2, 4);
+    //result = scale<int, 4>(result);
+    //myreg.field0 = 1;
+    //myreg.field0.set(1);
+    //myreg.field1.set(2);
+    //myreg.status.set(false);
+    (
+        myreg.field0.prepare(1) | myreg.field1.prepare(2) | myreg.status.prepare(false)
+    ).apply();
+
+
+
+    std::cout << "result is :" << fake_reg << std::endl;
+    std::cout << "field0 :" << myreg.field0.get() << std::endl;
+    std::cout << "field1 :" << myreg.field1.get() << std::endl;
+    std::cout << "field2 :" << myreg.field2.get() << std::endl;
+    std::cout << "status :" << myreg.status.get() << std::endl;
+    return 0; 
+}

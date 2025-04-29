@@ -4,7 +4,7 @@
 
 // importing the math module 
   
-import math; 
+
 import reg;
 
 

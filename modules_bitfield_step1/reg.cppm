@@ -2,7 +2,7 @@ module;
 #include <cstdint>
 
 
-import bitfield;
+export import bitfield;
 
 export module reg;
 
