@@ -1,3 +1,10 @@
+/// @file reg.cppm
+/// @brief Register module
+/// @details This module defines a Register class template that provides
+///          bit-field access to a register. It uses the BitView class template
+///          to define individual bit-fields within the register.
+/// @author Your Name
+/// @date 2023-10-01
 module;
 #include <cstdint>
 

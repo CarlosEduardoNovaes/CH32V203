@@ -7,10 +7,6 @@
 
 import reg;
 
-
-    
-
-
 static uint32_t fake_reg = 1024;
 
 Register<&fake_reg> myreg;
