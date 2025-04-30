@@ -1,7 +1,7 @@
 DIR :=$(LOCAL_DIR)
 
-CXX = g++
-CXXFLAGS = -std=c++20 -fmodules-ts 
+# CXX = g++
+# CXXFLAGS = -std=c++20 -fmodules-ts 
 
 # # Rule for compiling module interface units (.cppm)
 # %.pcm: %.cppm

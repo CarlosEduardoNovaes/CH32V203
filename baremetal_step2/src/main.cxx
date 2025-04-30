@@ -32,7 +32,6 @@
 #include <system.h>                               // system functions
 
 
-import add; // importa o módulo "add"
 
 
 
@@ -51,6 +50,6 @@ int main(void) {
   //  DLY_ms(100);                                  // wait a bit
   //}
   //var_a = 2;
-  var_b = add(var_a, var_b);
+  var_b = 4321;
   return 0;
 }
