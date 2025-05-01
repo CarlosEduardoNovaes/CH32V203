@@ -26,12 +26,12 @@
 
 # Files and Folders
 TARGET_NAME  		= firmware
-STARTUP_SRC  		= startup
-LIBRARY_SRCS 		= libraries
-HARDWARE_SRC 		= hw
-APPLICATION_SRC 	= src
 FIRWARE_DIR     	= bin
 BUILD_DIR    		= build
+STARTUP_SRCS  		= startup
+LIBRARY_DIRS 		= libs
+APPLICATION_SRC 	= src
+
 
 # Microcontroller Settings
 F_CPU    			= 144000000
@@ -40,12 +40,14 @@ STARTUP_SOURCE_FILE	= startup_ch32v203
 CPUARCH  			= -march=rv32imac -mabi=ilp32
 
 
-SOURCE_DIRS   		= $(STARTUP_SRC) $(HARDWARE_SRC) $(LIBRARY_SRCS) $(APPLICATION_SRC)
+SOURCE_DIRS   		= $(STARTUP_SRC) $(LIBRARY_SRCS) $(APPLICATION_SRC)
 STARTUP_OBJS  		:=
-LIBRARY_OBJS 		:=
-HARDWARE_OBJS 		:=
 APPLICATION_OBJS 	:=
-INCLUDE_DIRS  		:=
+LIBRARY_NAMES 		:=
+LIBRARY_PATHS 		:=
+INCLUDE_DIRS_LIB 	:=
+INCLUDE_DIRS_QUOTE	:=
+LIBRARY_TARGETS		:=
 
 
 # Toolchain
@@ -73,6 +75,21 @@ CFLAGS  	+= $(ARCHITECTURE_FLAGS) $(DEFINES) $(GERNERAL_FLAGS) -I$(NEWLIB) -I$(I
 CXXFLAGS   	= $(CFLAGS) -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts
 LDFLAGS  	= -T$(STARTUP)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
 
+# 2. Compilar bibliotecas de libraries/*
+LIB_SUBDIRS := $(filter %/, $(wildcard $(LIBRARY_DIRS)/*/))
+
+define include_lib_dir
+LIB_CURRENT_DIR := $1
+LIBRARY_NAMES += $(1)
+$(eval include $(firstword $(wildcard $(1)/makefile.mk) dummy.mk))
+LIBS += $(BUILD_DIR)/lib$(notdir $(1)).a
+INCLUDE_DIRS_LIB += -I$(1)/include
+endef
+
+#$(foreach dir,$(LIB_SUBDIRS),$(call include_lib_dir,$(dir)))
+$(foreach dir,$(LIB_SUBDIRS),$(eval $(call include_lib_dir,$(dir))))
+
+
 # include subdir function
 define include_source_dir
 LOCAL_DIR := $1
@@ -93,11 +110,6 @@ help:
 	@echo "make bin       compile and build $(TARGET).bin"
 	@echo "make flash     compile and upload to MCU"
 	@echo "make clean     remove all build files"
-
-
-$(BUILD)/add.o: src/add.cxxm
-	@echo "Building $@ ..."
-	$(CXX) $(CXXFLAGS) -x c++ -c $< -o $@
 
 
 
@@ -140,6 +152,8 @@ print:
 	@echo "APPLICATION_SRC: 			$(APPLICATION_SRC)"
 	@echo "FIRWARE_DIR: 				$(FIRWARE_DIR)"
 	@echo "BUILD_DIR: 					$(BUILD_DIR)"
+	@echo "LIB_SUBDIRS: 				$(LIB_SUBDIRS)"
+	@echo "INCLUDE_DIRS_LIB: 			$(INCLUDE_DIRS_LIB)"
 	@echo "--------------------------------------------------------"
 	@echo "--------------| Microcontroller Settings |--------------"
 	@echo "F_CPU: 						$(F_CPU)"
@@ -165,6 +179,11 @@ print:
 	@echo "LIBRARY_OBJS: 				$(LIBRARY_OBJS)"
 	@echo "HARDWARE_OBJS: 				$(HARDWARE_OBJS)"
 	@echo "APPLICATION_OBJS: 			$(APPLICATION_OBJS)"
+	@echo "LIBRARY_TARGETS: 			$(LIBRARY_TARGETS)"
+	@echo "LIBRARY_PATHS: 				$(LIBRARY_PATHS)"
+	@echo "LIBRARY_NAMES: 				$(LIBRARY_NAMES)"
+	@echo "LIBRARY_DIRS: 				$(LIBRARY_DIRS)"
+	@echo "LIB_CURRENT_DIR: 				$(LIB_CURRENT_DIR)"
 
 
 
