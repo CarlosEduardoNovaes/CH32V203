@@ -25,33 +25,24 @@
 # ===================================================================================
 
 # Files and Folders
-TARGET_NAME  		= firmware
+TARGET_NAME  			= firmware
+STARTUP_DIR  			= startup
+LIBRARY_DIR 			= libs
+APPLICATION_DIR   = src
 FIRWARE_DIR     	= bin
-BUILD_DIR    		= build
-STARTUP_SRCS  		= startup
-LIBRARY_DIRS 		= libs
-APPLICATION_SRC 	= src
-
+BUILD_DIR    			= build
 
 # Microcontroller Settings
-F_CPU    			= 144000000
-LDSCRIPT 			= ch32v203x6.ld
-STARTUP_SOURCE_FILE	= startup_ch32v203
-CPUARCH  			= -march=rv32imac -mabi=ilp32
-
-
-SOURCE_DIRS   		= $(STARTUP_SRC) $(LIBRARY_SRCS) $(APPLICATION_SRC)
-STARTUP_OBJS  		:=
-APPLICATION_OBJS 	:=
-LIBRARY_NAMES 		:=
-LIBRARY_PATHS 		:=
-INCLUDE_DIRS_LIB 	:=
-INCLUDE_DIRS_QUOTE	:=
-LIBRARY_TARGETS		:=
+CPU_MODEL					:= CH32V203x6
+F_CPU   					:= 144000000
+LDSCRIPT 					:= ch32v203x6.ld
+STARTUP_FILENAME	:= startup_ch32v203.c
+CPUARCH  					= -march=rv32imac -mabi=ilp32
 
 
 # Toolchain
 PREFIX   = riscv64-unknown-elf
+AR       = $(PREFIX)-ar
 CC       = $(PREFIX)-gcc
 CXX      = $(PREFIX)-g++
 OBJCOPY  = $(PREFIX)-objcopy
@@ -70,153 +61,56 @@ DEFINES 			= -DF_CPU=$(F_CPU)
 GERNERAL_FLAGS 		= -Wall
 
 
-CFLAGS   	= $(DEBUG_FLAGS) $(OPTIMIZATION_FLAGS)  -nostdlib
+CFLAGS   	= $(DEBUG_FLAGS) $(OPTIMIZATION_FLAGS)  -L$(BUILD_DIR)/$(LIBRARY_DIR) -nostdlib
 CFLAGS  	+= $(ARCHITECTURE_FLAGS) $(DEFINES) $(GERNERAL_FLAGS) -I$(NEWLIB) -I$(INCLUDE) -I$(SRC_DIRS) -I.
-CXXFLAGS   	= $(CFLAGS) -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts
-LDFLAGS  	= -T$(STARTUP)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
+CXXFLAGS   	= $(CFLAGS) -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts -x c++
+LDFLAGS  	= -T$(STARTUP_DIR)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
 
-# 2. Compilar bibliotecas de libraries/*
-LIB_SUBDIRS := $(filter %/, $(wildcard $(LIBRARY_DIRS)/*/))
+
+
+LIBRARY_NAMES 		:=
+LIBRARY_FLAGS			:=
+
+LIBRARY_SUBDIRS	 := $(filter %/, $(wildcard $(LIBRARY_DIR)/*/))
 
 define include_lib_dir
-LIB_CURRENT_DIR := $1
-LIBRARY_NAMES += $(1)
-$(eval include $(firstword $(wildcard $(1)/makefile.mk) dummy.mk))
-LIBS += $(BUILD_DIR)/lib$(notdir $(1)).a
-INCLUDE_DIRS_LIB += -I$(1)/include
+LIB_CURRENT_DIR			:= $(subst /__,,$(1)__)
+LIB_CURRENT_NAME := $(notdir $(subst /__,,$(1)__))
+LIBRARY_NAMES 			+= $$(LIB_CURRENT_NAME)
+LIBRARY_FLAGS				+= -l$$(LIB_CURRENT_NAME)
+include $(firstword $(wildcard $(1)/makefile.mk) libs_failback.mk)
 endef
 
-#$(foreach dir,$(LIB_SUBDIRS),$(call include_lib_dir,$(dir)))
-$(foreach dir,$(LIB_SUBDIRS),$(eval $(call include_lib_dir,$(dir))))
 
+$(foreach dir, $(LIBRARY_SUBDIRS),$(eval $(call include_lib_dir,$(dir))))
 
-# include subdir function
-define include_source_dir
-LOCAL_DIR := $1
-include $1/makefile.mk
-endef
+$(eval include $(firstword $(wildcard $(APPLICATION_DIR)/makefile.mk) app_failback.mk))
 
-$(foreach dir,$(SOURCE_DIRS),$(eval $(call include_source_dir,$(dir))))
+$(eval include $(STARTUP_DIR)/makefile.mk)
 
 
 
 
-# Symbolic Targets
-help:
-	@echo "Use the following commands:"
-	@echo "make all       compile and build $(TARGET).elf/.bin/.hex/.asm"
-	@echo "make hex       compile and build $(TARGET).hex"
-	@echo "make asm       compile and disassemble to $(TARGET).asm"
-	@echo "make bin       compile and build $(TARGET).bin"
-	@echo "make flash     compile and upload to MCU"
-	@echo "make clean     remove all build files"
-
-
-
-$(BUILD)/startup.o: $(STARTUP)/$(STARTUP_SRC).c
+$(FIRWARE_DIR)/$(TARGET_NAME).elf:  $(BUILD_DIR)/$(STARTUP_DIR)/startup.o $(APP_SOURCES) 
 	@echo "Building $@ ..."
-	@mkdir -p $(BUILD)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@mkdir -p $(@D)
+	$(CXX) -o $@ $^ $(LDFLAGS) -Isrc $(CXXFLAGS) -v
+	@##$(CXX) -o $@ $(LDFLAGS) $(CXXFLAGS) -L$(BUILD_DIR)/$(LIBRARY_DIR)  $(LIBRARY_FLAGS) -Ilibs  $^ 2> 
 
-$(FIRWARE_DIR)/$(TARGET_NAME).elf:  $(SRCFILES) $(MODULE_OBJS) $(BUILD)/startup.o
-	@echo "Building $(BIN)/$(TARGET).elf ..."
-	@mkdir -p $(BIN)
-	$(CXX) -o $@ $^ $(LDFLAGS) $(CXXFLAGS) 
 
-$(BIN)/$(TARGET).lst: $(BIN)/$(TARGET).elf
-	@echo "Building $(BIN)/$(TARGET).lst ..."
-	@$(OBJDUMP) -S $^ > $(BIN)/$(TARGET).lst
 
-$(BIN)/$(TARGET).map: $(BIN)/$(TARGET).elf
-	@echo "Building $(BIN)/$(TARGET).map ..."
-	@$(OBJDUMP) -t $^ > $(BIN)/$(TARGET).map
 
-$(BIN)/$(TARGET).bin: $(BIN)/$(TARGET).elf
-	@echo "Building $(BIN)/$(TARGET).bin ..."
-	@$(OBJCOPY) -O binary $< $(BIN)/$(TARGET).bin
-
-$(BIN)/$(TARGET).hex: $(BIN)/$(TARGET).elf
-	@echo "Building $(BIN)/$(TARGET).hex ..."
-	@$(OBJCOPY) -O ihex $< $(BIN)/$(TARGET).hex
-
-$(BIN)/$(TARGET).asm: $(BIN)/$(TARGET).elf
-	@echo "Disassembling to $(BIN)/$(TARGET).asm ..."
-	@$(OBJDUMP) -d $(BIN)/$(TARGET).elf > $(BIN)/$(TARGET).asm
 
 print:
 	@echo "------------------| Files and Folders |------------------"
-	@echo "TARGET_NAME: 				$(TARGET_NAME)"
-	@echo "STARTUP_SRC: 				$(STARTUP_SRC)"
-	@echo "LIBRARY_SRCS: 				$(LIBRARY_SRCS)"
-	@echo "HARDWARE_SRC: 				$(HARDWARE_SRC)"
-	@echo "APPLICATION_SRC: 			$(APPLICATION_SRC)"
-	@echo "FIRWARE_DIR: 				$(FIRWARE_DIR)"
-	@echo "BUILD_DIR: 					$(BUILD_DIR)"
-	@echo "LIB_SUBDIRS: 				$(LIB_SUBDIRS)"
-	@echo "INCLUDE_DIRS_LIB: 			$(INCLUDE_DIRS_LIB)"
-	@echo "--------------------------------------------------------"
-	@echo "--------------| Microcontroller Settings |--------------"
-	@echo "F_CPU: 						$(F_CPU)"
-	@echo "LDSCRIPT: 					$(LDSCRIPT)"
-	@echo "STARTUP_SOURCE_FILE: 		$(STARTUP_SOURCE_FILE)"
-	@echo "CPUARCH: 					$(CPUARCH)"
-	@echo "--------------------------------------------------------"
-	@echo "---------------------| Toolchain |----------------------"
-	@echo "PREFIX: 						$(PREFIX)"
-	@echo "CC: 							$(CC)"
-	@echo "CXX: 						$(CXX)"
-	@echo "OBJCOPY: 					$(OBJCOPY)"
-	@echo "OBJDUMP: 					$(OBJDUMP)"
-	@echo "--------------------------------------------------------"
-	@echo "------------------| Compiler Flags |-------------------"
-	@echo "CFLAGS: 						$(CFLAGS)"
-	@echo "CXXFLAGS: 					$(CXXFLAGS)"
-	@echo "LDFLAGS: 					$(LDFLAGS)"
-	@echo "--------------------------------------------------------"
-	@echo "-------------------| INTERNAL VARS |--------------------"
-	@echo "SOURCE_DIRS: 				$(SOURCE_DIRS)"
-	@echo "STARTUP_OBJS: 				$(STARTUP_OBJS)"
-	@echo "LIBRARY_OBJS: 				$(LIBRARY_OBJS)"
-	@echo "HARDWARE_OBJS: 				$(HARDWARE_OBJS)"
-	@echo "APPLICATION_OBJS: 			$(APPLICATION_OBJS)"
-	@echo "LIBRARY_TARGETS: 			$(LIBRARY_TARGETS)"
-	@echo "LIBRARY_PATHS: 				$(LIBRARY_PATHS)"
-	@echo "LIBRARY_NAMES: 				$(LIBRARY_NAMES)"
-	@echo "LIBRARY_DIRS: 				$(LIBRARY_DIRS)"
-	@echo "LIB_CURRENT_DIR: 				$(LIB_CURRENT_DIR)"
-
-
-
-all:	$(BIN)/$(TARGET).lst $(BIN)/$(TARGET).map $(BIN)/$(TARGET).bin $(BIN)/$(TARGET).hex $(BIN)/$(TARGET).asm size
-
-elf:	$(BIN)/$(TARGET).elf removetemp size
-
-bin:	$(BIN)/$(TARGET).bin removetemp size removeelf
-
-hex:	$(BIN)/$(TARGET).hex removetemp size removeelf
-
-asm:	$(BIN)/$(TARGET).asm removetemp size removeelf
-
-flash:	$(BIN)/$(TARGET).bin size removeelf
-	@echo "Uploading to MCU ..."
-	@$(ISPTOOL)
-
-clean:
-	@echo "Cleaning all up ..."
-	@$(CLEAN)
-	@rm -f $(BIN)/$(TARGET).elf $(BIN)/$(TARGET).lst $(BIN)/$(TARGET).map $(BIN)/$(TARGET).bin $(BIN)/$(TARGET).hex $(BIN)/$(TARGET).asm
-	@rm -f $(BUILD)/*.o
-
-size:
-	@echo "------------------"
-	@echo "FLASH: $(shell $(OBJSIZE) -d $(BIN)/$(TARGET).elf | awk '/[0-9]/ {print $$1 + $$2}') bytes"
-	@echo "SRAM:  $(shell $(OBJSIZE) -d $(BIN)/$(TARGET).elf | awk '/[0-9]/ {print $$2 + $$3}') bytes"
-	@echo "------------------"
-
-removetemp:
-	@echo "Removing temporary files ..."
-	@$(CLEAN)
-
-removeelf:
-	@echo "Removing $(BIN)/$(TARGET).elf ..."
-	@rm -f $(BIN)/$(TARGET).elf
+	@echo "TARGET_NAME          : $(TARGET_NAME)"
+	@echo "STARTUP_DIR          : $(STARTUP_DIR)"
+	@echo "LIBRARY_DIR          : $(LIBRARY_DIR)"
+	@echo "APPLICATION_DIR      : $(APPLICATION_DIR)" 
+	@echo "FIRWARE_DIR          : $(FIRWARE_DIR)"
+	@echo "BUILD_DIR            : $(BUILD_DIR)"
+	@echo "LIBRARY_SUBDIRS      : $(LIBRARY_SUBDIRS)"
+	@echo "LIBRARY_NAMES        : $(LIBRARY_NAMES)"
+	@echo "LIBRARY_INCLUDES     : $(LIBRARY_INCLUDES)"
+	@echo "LIBRARY_FLAGS        : $(LIBRARY_FLAGS)"
+	@echo "APP_OBJECTS          : $(APP_OBJECTS)"

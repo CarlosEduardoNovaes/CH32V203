@@ -1,0 +1,7 @@
+module;
+
+export module z;
+
+int zfoo(){
+  return 42;
+}; 
