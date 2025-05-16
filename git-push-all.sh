@@ -2,7 +2,7 @@
 
 # Faz add de todos os arquivos, commit com mensagem fornecida e push
 
-echo "Mensagem do commit:"
+#echo "Mensagem do commit:"
 read -p "Mensagem de commit: " mensagem
 #mensagem="comit"
 
