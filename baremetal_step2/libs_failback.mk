@@ -13,6 +13,8 @@ CURRENT_LIB_SOURCES 	:= 	$(wildcard $(LIB_CURRENT_DIR)/*.c)			\
 
 CURRENT_LIB_OBJECTS 	:= $(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(basename $(CURRENT_LIB_SOURCES))))
 
+LIBRARY_LIST += $(BUILD_DIR)/$(LIBRARY_DIR)/lib$(LIB_CURRENT_NAME).a
+
 
 
 

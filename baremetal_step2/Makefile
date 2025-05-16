@@ -25,12 +25,13 @@
 # ===================================================================================
 
 # Files and Folders
+FIRWARE_DIR     	= bin
 TARGET_NAME  			= firmware
 STARTUP_DIR  			= startup
 LIBRARY_DIR 			= libs
 APPLICATION_DIR   = src
-FIRWARE_DIR     	= bin
 BUILD_DIR    			= build
+
 
 # Microcontroller Settings
 CPU_MODEL					:= CH32V203x6
@@ -49,7 +50,7 @@ OBJCOPY  = $(PREFIX)-objcopy
 OBJDUMP  = $(PREFIX)-objdump
 OBJSIZE  = $(PREFIX)-size
 NEWLIB   = /usr/include/newlib
-ISPTOOL  = chprog $(BIN)/$(TARGET).bin
+ISPTOOL  = chprog $(FIRWARE_DIR)/$(TARGET_NAME).bin
 CLEAN    = rm -f *.lst *.obj *.cof *.list *.map *.eep.hex *.o *.d
 
 
@@ -59,17 +60,21 @@ DEBUG_FLAGS 		= -g
 ARCHITECTURE_FLAGS	= $(CPUARCH) 
 DEFINES 			= -DF_CPU=$(F_CPU)
 GERNERAL_FLAGS 		= -Wall
+INCLUDE_FLAGS			= -I$(NEWLIB) -I$(LIBRARY_DIR) -I$(APPLICATION_DIR)
 
 
 CFLAGS   	= $(DEBUG_FLAGS) $(OPTIMIZATION_FLAGS)  -L$(BUILD_DIR)/$(LIBRARY_DIR) -nostdlib
-CFLAGS  	+= $(ARCHITECTURE_FLAGS) $(DEFINES) $(GERNERAL_FLAGS) -I$(NEWLIB) -I$(INCLUDE) -I$(SRC_DIRS) -I.
-CXXFLAGS   	= $(CFLAGS) -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts -x c++
+CFLAGS  	+= $(ARCHITECTURE_FLAGS) $(DEFINES) $(GERNERAL_FLAGS) $(INCLUDE_FLAGS) 
+CXXFLAGS  = $(CFLAGS) -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts -x c++
 LDFLAGS  	= -T$(STARTUP_DIR)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
 
 
 
 LIBRARY_NAMES 		:=
 LIBRARY_FLAGS			:=
+LIBRARY_LIST			:=
+
+
 
 LIBRARY_SUBDIRS	 := $(filter %/, $(wildcard $(LIBRARY_DIR)/*/))
 
@@ -91,11 +96,44 @@ $(eval include $(STARTUP_DIR)/makefile.mk)
 
 
 
-$(FIRWARE_DIR)/$(TARGET_NAME).elf:  $(BUILD_DIR)/$(STARTUP_DIR)/startup.o $(APP_SOURCES) 
+$(FIRWARE_DIR)/$(TARGET_NAME).elf:  $(BUILD_DIR)/$(STARTUP_DIR)/startup.o $(APP_SOURCES) $(LIBRARY_LIST)
 	@echo "Building $@ ..."
 	@mkdir -p $(@D)
-	$(CXX) -o $@ $^ $(LDFLAGS) -Isrc $(CXXFLAGS) -v
-	@##$(CXX) -o $@ $(LDFLAGS) $(CXXFLAGS) -L$(BUILD_DIR)/$(LIBRARY_DIR)  $(LIBRARY_FLAGS) -Ilibs  $^ 2> 
+	$(CXX) -o $@ $^ $(LDFLAGS) $(CXXFLAGS) -L$(BUILD_DIR)/$(LIBRARY_DIR)  $(LIBRARY_FLAGS)
+	#### $(CXX) -o $@ $(LDFLAGS) $(CXXFLAGS) -L$(BUILD_DIR)/$(LIBRARY_DIR)  $(LIBRARY_FLAGS) -Ilibs  $^ 2> 
+
+$(FIRWARE_DIR)/$(TARGET_NAME).lst: $(FIRWARE_DIR)/$(TARGET_NAME).elf
+	@echo "Building $(FIRWARE_DIR)/$(TARGET_NAME).lst ..."
+	@$(OBJDUMP) -S $^ > $(FIRWARE_DIR)/$(TARGET_NAME).lst
+
+$(FIRWARE_DIR)/$(TARGET_NAME).map: $(FIRWARE_DIR)/$(TARGET_NAME).elf
+	@echo "Building $(FIRWARE_DIR)/$(TARGET_NAME).map ..."
+	@$(OBJDUMP) -t $^ > $(FIRWARE_DIR)/$(TARGET_NAME).map
+
+$(FIRWARE_DIR)/$(TARGET_NAME).bin: $(FIRWARE_DIR)/$(TARGET_NAME).elf
+	@echo "Building $(FIRWARE_DIR)/$(TARGET_NAME).bin ..."
+	@$(OBJCOPY) -O binary $< $(FIRWARE_DIR)/$(TARGET_NAME).bin
+
+$(FIRWARE_DIR)/$(TARGET_NAME).hex: $(FIRWARE_DIR)/$(TARGET_NAME).elf
+	@echo "Building $(FIRWARE_DIR)/$(TARGET_NAME).hex ..."
+	@$(OBJCOPY) -O ihex $< $(FIRWARE_DIR)/$(TARGET_NAME).hex
+
+$(FIRWARE_DIR)/$(TARGET_NAME).asm: $(FIRWARE_DIR)/$(TARGET_NAME).elf
+	@echo "Disassembling to $(FIRWARE_DIR)/$(TARGET_NAME).asm ..."
+	@$(OBJDUMP) -d $(FIRWARE_DIR)/$(TARGET_NAME).elf > $(FIRWARE_DIR)/$(TARGET_NAME).asm
+
+size:
+	@echo "------------------"
+	@echo "FLASH: $(shell $(OBJSIZE) -d $(FIRWARE_DIR)/$(TARGET_NAME).elf | awk '/[0-9]/ {print $$1 + $$2}') bytes"
+	@echo "SRAM:  $(shell $(OBJSIZE) -d $(FIRWARE_DIR)/$(TARGET_NAME).elf | awk '/[0-9]/ {print $$2 + $$3}') bytes"
+	@echo "------------------"
+
+all:	$(FIRWARE_DIR)/$(TARGET_NAME).elf $(FIRWARE_DIR)/$(TARGET_NAME).lst $(FIRWARE_DIR)/$(TARGET_NAME).map $(FIRWARE_DIR)/$(TARGET_NAME).bin $(FIRWARE_DIR)/$(TARGET_NAME).hex $(FIRWARE_DIR)/$(TARGET_NAME).asm size
+
+clean:
+	@echo "Cleaning all up ..."
+	@$(CLEAN)
+	@rm -rf $(FIRWARE_DIR) $(BUILD_DIR)
 
 
 
@@ -103,14 +141,16 @@ $(FIRWARE_DIR)/$(TARGET_NAME).elf:  $(BUILD_DIR)/$(STARTUP_DIR)/startup.o $(APP_
 
 print:
 	@echo "------------------| Files and Folders |------------------"
-	@echo "TARGET_NAME          : $(TARGET_NAME)"
-	@echo "STARTUP_DIR          : $(STARTUP_DIR)"
-	@echo "LIBRARY_DIR          : $(LIBRARY_DIR)"
-	@echo "APPLICATION_DIR      : $(APPLICATION_DIR)" 
 	@echo "FIRWARE_DIR          : $(FIRWARE_DIR)"
 	@echo "BUILD_DIR            : $(BUILD_DIR)"
+	@echo "STARTUP_DIR          : $(STARTUP_DIR)"
+	@echo "APPLICATION_DIR      : $(APPLICATION_DIR)" 
+	@echo "LIBRARY_DIR          : $(LIBRARY_DIR)"
 	@echo "LIBRARY_SUBDIRS      : $(LIBRARY_SUBDIRS)"
+	@echo "INCLUDE              : $(INCLUDE)"
+	@echo "------------------| Config |------------------"	
+	@echo "TARGET_NAME          : $(TARGET_NAME)"		
 	@echo "LIBRARY_NAMES        : $(LIBRARY_NAMES)"
-	@echo "LIBRARY_INCLUDES     : $(LIBRARY_INCLUDES)"
 	@echo "LIBRARY_FLAGS        : $(LIBRARY_FLAGS)"
 	@echo "APP_OBJECTS          : $(APP_OBJECTS)"
+	@echo "LIBRARY_LIST         : $(LIBRARY_LIST)"
