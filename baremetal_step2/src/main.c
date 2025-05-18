@@ -32,24 +32,33 @@
 #include <system/system.h>                               // system functions
 
 
+//#include <gpio.h>                                 // GPIO functions
 
 
+
+import pinled;
 
 // ===================================================================================
 // Main Function
 // ===================================================================================
 int main(void) {
-  static volatile uint32_t var_a = 123;
-  static volatile uint32_t var_b = 456;
+  // System Init
+  SYS_init();
   // Setup
   //PIN_output(PIN_LED);                            // set LED pin to output
+  pinled::init();
+  //GPIOA->BSHR = 1 << 15;
+  pinled::turnOff();
   
   // Loop
-  //while(1) {
-  //  PIN_toggle(PIN_LED);                          // toggle LED
-  //  DLY_ms(100);                                  // wait a bit
-  //}
-  //var_a = 2;
-  var_b = 4321;
-  return 0;
+  while(1) {
+    pinled::turnOn();
+    DLY_ms(100);                                  // wait a bit
+    pinled::turnOff();
+    DLY_ms(100);                                  // wait a bit
+    pinled::turnOn();
+    DLY_ms(100);                                  // wait a bit
+    pinled::turnOff();
+    DLY_ms(700);                                  // wait a bit
+  }
 }

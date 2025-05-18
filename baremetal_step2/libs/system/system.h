@@ -117,7 +117,7 @@ extern "C" {
 // ===================================================================================
 // Set system clock frequency
 #ifndef F_CPU
-  #define F_CPU           48000000  // 48Mhz if not otherwise defined
+  #define F_CPU           144000000  // 144Mhz if not otherwise defined
 #endif
 
 // Calculate system clock settings

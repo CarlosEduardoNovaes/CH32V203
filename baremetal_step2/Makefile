@@ -55,7 +55,7 @@ CLEAN    = rm -f *.lst *.obj *.cof *.list *.map *.eep.hex *.o *.d
 
 
 # Compiler Flags
-OPTIMIZATION_FLAGS 	= -O3 -ffunction-sections -fdata-sections -fno-builtin -flto
+OPTIMIZATION_FLAGS 	= -O0 -ffunction-sections -fdata-sections -fno-builtin -flto
 DEBUG_FLAGS 		= -g
 ARCHITECTURE_FLAGS	= $(CPUARCH) 
 DEFINES 			= -DF_CPU=$(F_CPU)
