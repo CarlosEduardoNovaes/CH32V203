@@ -53,11 +53,15 @@ int main(void) {
   // Loop
   while(1) {
     pinled::turnOn();
-    DLY_ms(100);                                  // wait a bit
+    DLY_ms(50);                                  // wait a bit
     pinled::turnOff();
-    DLY_ms(100);                                  // wait a bit
+    DLY_ms(50);                                  // wait a bit
     pinled::turnOn();
-    DLY_ms(100);                                  // wait a bit
+    DLY_ms(50);                                  // wait a bit
+    pinled::turnOff();
+    DLY_ms(50);                                  // wait a bit
+    pinled::turnOn();
+    DLY_ms(50);                                  // wait a bit
     pinled::turnOff();
     DLY_ms(700);                                  // wait a bit
   }

@@ -42,7 +42,8 @@ CPUARCH  					= -march=rv32imac -mabi=ilp32
 
 
 # Toolchain
-PREFIX   = riscv64-unknown-elf
+$PREFIX   = riscv64-unknown-elf
+PREFIX   = ~/.local/xPacks/riscv-none-elf-gcc-14.2.0-3/bin/riscv-none-elf
 AR       = $(PREFIX)-ar
 CC       = $(PREFIX)-gcc
 CXX      = $(PREFIX)-g++
@@ -55,7 +56,7 @@ CLEAN    = rm -f *.lst *.obj *.cof *.list *.map *.eep.hex *.o *.d
 
 
 # Compiler Flags
-OPTIMIZATION_FLAGS 	= -O0 -ffunction-sections -fdata-sections -fno-builtin -flto
+OPTIMIZATION_FLAGS 	= -O3 -ffunction-sections -fdata-sections -fno-builtin -flto
 DEBUG_FLAGS 		= -g
 ARCHITECTURE_FLAGS	= $(CPUARCH) 
 DEFINES 			= -DF_CPU=$(F_CPU)

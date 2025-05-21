@@ -1,0 +1,272 @@
+
+bin/firmware.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .init:
+
+00000000 <jump_reset>:
+DUMMY_HANDLER void UART4_IRQHandler(void);
+DUMMY_HANDLER void DMA1_Channel8_IRQHandler(void);
+#endif  // SYS_USE_VECTORS > 0
+
+// FLASH starts with a jump to the reset handler
+void jump_reset(void) { asm volatile("j reset_handler"); }
+   0:	2260006f          	j	226 <reset_handler>
+
+00000004 <init_data>:
+   4:	00000013 00000013 00000013 00000013     ................
+  14:	00000013 00000013 00000013 00000013     ................
+  24:	00000013 00000013 00000013 00000013     ................
+  34:	00100073                                s...
+
+Disassembly of section .text:
+
+00000134 <ADC1_2_IRQHandler>:
+void default_handler(void)    { while(1); }
+ 134:	a001                	j	134 <ADC1_2_IRQHandler>
+
+00000136 <main>:
+// Setup Microcontroller (this function is called automatically at startup)
+// ===================================================================================
+void SYS_init(void) {
+  // Init system clock
+  #if SYS_CLK_INIT > 0
+    RCC->INTR = 0x009F0000;                               // Clear ready flags
+ 136:	40021737          	lui	a4,0x40021
+ 13a:	009f06b7          	lui	a3,0x9f0
+ 13e:	c714                	sw	a3,8(a4)
+  while((RCC->CFGR0 & RCC_SWS));                          // Wait for HSI
+}
+
+// Init internal oscillator with PLL as system clock source
+void CLK_init_HSI_PLL(void) {
+  EXTEN->EXTEN_CTR |= EXTEN_PLL_HSI_PRE;                  // HSI not divided for PLL
+ 140:	400247b7          	lui	a5,0x40024
+ 144:	8007a683          	lw	a3,-2048(a5) # 40023800 <_eusrstack+0x20021000>
+  RCC->CFGR0 = RCC_HPRE_DIV1                              // HCLK = SYSCLK
+ 148:	003c05b7          	lui	a1,0x3c0
+             | RCC_PPRE2_DIV1                             // PCLK2 = HCLK
+             | RCC_PPRE1_DIV1                             // PCLK1 = HCLK
+             | RCC_PLLSRC_HSI_Div2                        // HSI for PLL entry
+             | CLK_MUL;                                   // PLL multiplier
+  RCC->CTLR |= RCC_PLLON;                                 // Enable PLL
+ 14c:	01000637          	lui	a2,0x1000
+  EXTEN->EXTEN_CTR |= EXTEN_PLL_HSI_PRE;                  // HSI not divided for PLL
+ 150:	0106e693          	ori	a3,a3,16
+ 154:	80d7a023          	sw	a3,-2048(a5)
+  RCC->CFGR0 = RCC_HPRE_DIV1                              // HCLK = SYSCLK
+ 158:	c34c                	sw	a1,4(a4)
+  RCC->CTLR |= RCC_PLLON;                                 // Enable PLL
+ 15a:	431c                	lw	a5,0(a4)
+ 15c:	8fd1                	or	a5,a5,a2
+ 15e:	c31c                	sw	a5,0(a4)
+  while(!(RCC->CTLR & RCC_PLLRDY));                       // Wait till PLL is ready      
+ 160:	431c                	lw	a5,0(a4)
+ 162:	00679693          	slli	a3,a5,0x6
+ 166:	fe06dde3          	bgez	a3,160 <main+0x2a>
+  RCC->CFGR0 |= RCC_SW_PLL;                               // PLL as system clock source
+ 16a:	435c                	lw	a5,4(a4)
+  while((RCC->CFGR0 & RCC_SWS) != (uint32_t)0x08);        // Wait for PLL
+ 16c:	400216b7          	lui	a3,0x40021
+ 170:	4621                	li	a2,8
+  RCC->CFGR0 |= RCC_SW_PLL;                               // PLL as system clock source
+ 172:	0027e793          	ori	a5,a5,2
+ 176:	c35c                	sw	a5,4(a4)
+  while((RCC->CFGR0 & RCC_SWS) != (uint32_t)0x08);        // Wait for PLL
+ 178:	42dc                	lw	a5,4(a3)
+ 17a:	8bb1                	andi	a5,a5,12
+ 17c:	fec79ee3          	bne	a5,a2,178 <main+0x42>
+      FLASH->CTLR &= ~FLASH_CTLR_SCKMOD;                  // FLASH CLK = SYSCLK / 2
+ 180:	40022637          	lui	a2,0x40022
+ 184:	4a1c                	lw	a5,16(a2)
+ 186:	fe000737          	lui	a4,0xfe000
+ 18a:	177d                	addi	a4,a4,-1 # fdffffff <_eusrstack+0xddffd7ff>
+ 18c:	8ff9                	and	a5,a5,a4
+ 18e:	ca1c                	sw	a5,16(a2)
+  STK_init();
+ 190:	4715                	li	a4,5
+ 192:	e000f7b7          	lui	a5,0xe000f
+ 196:	c398                	sw	a4,0(a5)
+  RCC->APB2PCENR |= RCC_IOPAEN | RCC_IOPBEN | RCC_IOPCEN | RCC_IOPDEN;
+ 198:	4e98                	lw	a4,24(a3)
+
+namespace pinled
+{
+  export void init()
+  {
+    GPIOA->CFGHR &= 0xF<<28;
+ 19a:	40011637          	lui	a2,0x40011
+ 19e:	80060613          	addi	a2,a2,-2048 # 40010800 <_eusrstack+0x2000e000>
+ 1a2:	03c76713          	ori	a4,a4,60
+ 1a6:	ce98                	sw	a4,24(a3)
+ 1a8:	4258                	lw	a4,4(a2)
+ 1aa:	f00005b7          	lui	a1,0xf0000
+    GPIOA->CFGHR |= 0x3<<28;
+ 1ae:	300006b7          	lui	a3,0x30000
+    GPIOA->CFGHR &= 0xF<<28;
+ 1b2:	8f6d                	and	a4,a4,a1
+ 1b4:	c258                	sw	a4,4(a2)
+    GPIOA->CFGHR |= 0x3<<28;
+ 1b6:	4258                	lw	a4,4(a2)
+    GPIOA->BCR = 1 << 15;
+  };
+
+  export void turnOff()
+  {
+    GPIOA->BSHR = 1 << 15;
+ 1b8:	65a1                	lui	a1,0x8
+// Delay Functions
+// ===================================================================================
+
+// Wait n counts of SysTick
+void DLY_ticks(uint32_t n) {
+  uint32_t end = STK->CNTL + n;
+ 1ba:	006de537          	lui	a0,0x6de
+    GPIOA->CFGHR |= 0x3<<28;
+ 1be:	8f55                	or	a4,a4,a3
+ 1c0:	c258                	sw	a4,4(a2)
+ 1c2:	06021837          	lui	a6,0x6021
+    GPIOA->BSHR = 1 << 15;
+ 1c6:	ca0c                	sw	a1,16(a2)
+ 1c8:	d0050513          	addi	a0,a0,-768 # 6ddd00 <system.cxx.7b0de659+0x6dd73a>
+ 1cc:	60080813          	addi	a6,a6,1536 # 6021600 <system.cxx.7b0de659+0x602103a>
+    GPIOA->BCR = 1 << 15;
+ 1d0:	ca4c                	sw	a1,20(a2)
+ 1d2:	4794                	lw	a3,8(a5)
+ 1d4:	96aa                	add	a3,a3,a0
+  while(((int32_t)(STK->CNTL - end)) < 0 );
+ 1d6:	4798                	lw	a4,8(a5)
+ 1d8:	8f15                	sub	a4,a4,a3
+ 1da:	fe074ee3          	bltz	a4,1d6 <main+0xa0>
+    GPIOA->BSHR = 1 << 15;
+ 1de:	ca0c                	sw	a1,16(a2)
+  uint32_t end = STK->CNTL + n;
+ 1e0:	4794                	lw	a3,8(a5)
+ 1e2:	96aa                	add	a3,a3,a0
+  while(((int32_t)(STK->CNTL - end)) < 0 );
+ 1e4:	4798                	lw	a4,8(a5)
+ 1e6:	8f15                	sub	a4,a4,a3
+ 1e8:	fe074ee3          	bltz	a4,1e4 <main+0xae>
+    GPIOA->BCR = 1 << 15;
+ 1ec:	ca4c                	sw	a1,20(a2)
+  uint32_t end = STK->CNTL + n;
+ 1ee:	4794                	lw	a3,8(a5)
+ 1f0:	96aa                	add	a3,a3,a0
+  while(((int32_t)(STK->CNTL - end)) < 0 );
+ 1f2:	4798                	lw	a4,8(a5)
+ 1f4:	8f15                	sub	a4,a4,a3
+ 1f6:	fe074ee3          	bltz	a4,1f2 <main+0xbc>
+    GPIOA->BSHR = 1 << 15;
+ 1fa:	ca0c                	sw	a1,16(a2)
+  uint32_t end = STK->CNTL + n;
+ 1fc:	4794                	lw	a3,8(a5)
+ 1fe:	96aa                	add	a3,a3,a0
+  while(((int32_t)(STK->CNTL - end)) < 0 );
+ 200:	4798                	lw	a4,8(a5)
+ 202:	8f15                	sub	a4,a4,a3
+ 204:	fe074ee3          	bltz	a4,200 <main+0xca>
+    GPIOA->BCR = 1 << 15;
+ 208:	ca4c                	sw	a1,20(a2)
+  uint32_t end = STK->CNTL + n;
+ 20a:	4794                	lw	a3,8(a5)
+ 20c:	96aa                	add	a3,a3,a0
+  while(((int32_t)(STK->CNTL - end)) < 0 );
+ 20e:	4798                	lw	a4,8(a5)
+ 210:	8f15                	sub	a4,a4,a3
+ 212:	fe074ee3          	bltz	a4,20e <main+0xd8>
+    GPIOA->BSHR = 1 << 15;
+ 216:	ca0c                	sw	a1,16(a2)
+  uint32_t end = STK->CNTL + n;
+ 218:	4794                	lw	a3,8(a5)
+ 21a:	96c2                	add	a3,a3,a6
+  while(((int32_t)(STK->CNTL - end)) < 0 );
+ 21c:	4798                	lw	a4,8(a5)
+ 21e:	8f15                	sub	a4,a4,a3
+ 220:	fe074ee3          	bltz	a4,21c <main+0xe6>
+ 224:	b775                	j	1d0 <main+0x9a>
+
+00000226 <reset_handler>:
+// Reset handler
+void reset_handler(void) {
+  uint32_t *src, *dst;
+  
+  // Set pointers, vectors, processor status, and interrupts
+  asm volatile(
+ 226:	13600793          	li	a5,310
+ 22a:	20000197          	auipc	gp,0x20000
+ 22e:	5d618193          	addi	gp,gp,1494 # 20000800 <__global_pointer$>
+ 232:	20002117          	auipc	sp,0x20002
+ 236:	5ce10113          	addi	sp,sp,1486 # 20002800 <_eusrstack>
+ 23a:	457d                	li	a0,31
+ 23c:	bc051073          	csrw	0xbc0,a0
+ 240:	08800513          	li	a0,136
+ 244:	30051073          	csrw	mstatus,a0
+ 248:	458d                	li	a1,3
+ 24a:	80459073          	csrw	0x804,a1
+ 24e:	03800513          	li	a0,56
+ 252:	8d4d                	or	a0,a0,a1
+ 254:	30551073          	csrw	mtvec,a0
+ 258:	34179073          	csrw	mepc,a5
+  );
+
+  // Copy data from FLASH to RAM
+  src = &_data_lma;
+  dst = &_data_vma;
+  while(dst < &_edata) *dst++ = *src++;
+ 25c:	20000737          	lui	a4,0x20000
+ 260:	200007b7          	lui	a5,0x20000
+ 264:	00070613          	mv	a2,a4
+ 268:	00078793          	mv	a5,a5
+ 26c:	02f67563          	bgeu	a2,a5,296 <startup_ch32v203.c.f0a6343f+0x52>
+ 270:	fff78693          	addi	a3,a5,-1 # 1fffffff <system.cxx.7b0de659+0x1ffffa39>
+ 274:	8e91                	sub	a3,a3,a2
+ 276:	9af1                	andi	a3,a3,-4
+ 278:	2e800613          	li	a2,744
+ 27c:	0691                	addi	a3,a3,4 # 30000004 <_eusrstack+0xfffd804>
+  dst = &_data_vma;
+ 27e:	00070713          	mv	a4,a4
+ 282:	96b2                	add	a3,a3,a2
+  src = &_data_lma;
+ 284:	2e800793          	li	a5,744
+  while(dst < &_edata) *dst++ = *src++;
+ 288:	4390                	lw	a2,0(a5)
+ 28a:	0791                	addi	a5,a5,4
+ 28c:	0711                	addi	a4,a4,4 # 20000004 <_data_vma+0x4>
+ 28e:	fec72e23          	sw	a2,-4(a4)
+ 292:	fed79be3          	bne	a5,a3,288 <startup_ch32v203.c.f0a6343f+0x44>
+  count = __preinit_array_end - __preinit_array_start;
+ 296:	2e800793          	li	a5,744
+ 29a:	2e800713          	li	a4,744
+ 29e:	40e78933          	sub	s2,a5,a4
+ 2a2:	40295913          	srai	s2,s2,0x2
+  for (i = 0; i < count; i++) __preinit_array_start[i]();
+ 2a6:	00e78b63          	beq	a5,a4,2bc <startup_ch32v203.c.f0a6343f+0x78>
+ 2aa:	2e800413          	li	s0,744
+ 2ae:	4481                	li	s1,0
+ 2b0:	401c                	lw	a5,0(s0)
+ 2b2:	0485                	addi	s1,s1,1
+ 2b4:	0411                	addi	s0,s0,4
+ 2b6:	9782                	jalr	a5
+ 2b8:	ff24ece3          	bltu	s1,s2,2b0 <startup_ch32v203.c.f0a6343f+0x6c>
+  count = __init_array_end - __init_array_start;
+ 2bc:	2e800793          	li	a5,744
+ 2c0:	2e800713          	li	a4,744
+ 2c4:	40e78933          	sub	s2,a5,a4
+ 2c8:	40295913          	srai	s2,s2,0x2
+  for (i = 0; i < count; i++) __init_array_start[i]();
+ 2cc:	00e78b63          	beq	a5,a4,2e2 <startup_ch32v203.c.f0a6343f+0x9e>
+ 2d0:	2e800413          	li	s0,744
+ 2d4:	4481                	li	s1,0
+ 2d6:	401c                	lw	a5,0(s0)
+ 2d8:	0485                	addi	s1,s1,1
+ 2da:	0411                	addi	s0,s0,4
+ 2dc:	9782                	jalr	a5
+ 2de:	ff24ece3          	bltu	s1,s2,2d6 <startup_ch32v203.c.f0a6343f+0x92>
+
+  // Init system
+  
+
+  // Return
+  asm volatile("mret");
+ 2e2:	30200073          	mret
+	...
