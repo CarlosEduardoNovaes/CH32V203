@@ -7,7 +7,7 @@ module;
  * @brief Export the bitfield module
  * 
  */
-export module bitfield;
+export module registers;
 
 #pragma once
 
@@ -187,8 +187,8 @@ class RegisterOperation
  */
 export template<
     class           TP_RegType,
-    TP_RegType*     TP_Addr, // for testing fake registers
-    //uintptr_t       TP_Addr, // for real use
+    //TP_RegType*     TP_Addr, // for testing fake registers
+    uintptr_t       TP_Addr, // for real use
     int8_t          TP_Offset,
     int8_t          TP_Size,
     class           TP_FieldType = TP_RegType
@@ -288,8 +288,8 @@ class BitView
 
 // Specialized aliases
 export template<
-    uint32_t*     TP_Addr, // for testing fake registers
-    //uintptr_t       TP_Addr, // for real use
+    //uint32_t*     TP_Addr, // for testing fake registers
+    uintptr_t       TP_Addr, // for real use
     int8_t          TP_Offset,
     int8_t          TP_Size,
     class           TP_FieldType = uint32_t
@@ -297,8 +297,8 @@ export template<
 using BitView32 = BitView<uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
 
 export template<
-    uint16_t*     TP_Addr, // for testing fake registers
-    //uintptr_t       TP_Addr, // for real use
+    //uint16_t*     TP_Addr, // for testing fake registers
+    uintptr_t       TP_Addr, // for real use
     int8_t          TP_Offset,
     int8_t          TP_Size,
     class           TP_FieldType = uint16_t
@@ -306,8 +306,8 @@ export template<
 using BitView16 = BitView<uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
 
 export template<
-    uint8_t*     TP_Addr, // for testing fake registers
-    //uintptr_t       TP_Addr, // for real use
+    //uint8_t*     TP_Addr, // for testing fake registers
+    uintptr_t       TP_Addr, // for real use
     int8_t          TP_Offset,
     int8_t          TP_Size,
     class           TP_FieldType = uint8_t

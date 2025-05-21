@@ -37,6 +37,12 @@
 
 
 import pinled;
+import registers;
+
+
+BitView32<0x40010814, 15, 1, bool> FieldLedSet;
+BitView32<0x40010810, 15, 1, bool> FieldLedReset;
+
 
 // ===================================================================================
 // Main Function
@@ -52,17 +58,20 @@ int main(void) {
   
   // Loop
   while(1) {
-    pinled::turnOn();
+    FieldLedSet = true; // set led
     DLY_ms(50);                                  // wait a bit
-    pinled::turnOff();
-    DLY_ms(50);                                  // wait a bit
-    pinled::turnOn();
-    DLY_ms(50);                                  // wait a bit
-    pinled::turnOff();
-    DLY_ms(50);                                  // wait a bit
-    pinled::turnOn();
-    DLY_ms(50);                                  // wait a bit
-    pinled::turnOff();
+    FieldLedReset = true; //reset led
+    // pinled::turnOn();
+    // DLY_ms(50);                                  // wait a bit
+    // pinled::turnOff();
+    // DLY_ms(50);                                  // wait a bit
+    // pinled::turnOn();
+    // DLY_ms(50);                                  // wait a bit
+    // pinled::turnOff();
+    // DLY_ms(50);                                  // wait a bit
+    // pinled::turnOn();
+    // DLY_ms(50);                                  // wait a bit
+    // pinled::turnOff();
     DLY_ms(700);                                  // wait a bit
   }
 }
