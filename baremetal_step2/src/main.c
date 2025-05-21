@@ -58,8 +58,14 @@ int main(void) {
   
   // Loop
   while(1) {
+    /*
+      Set led
+     */
     FieldLedSet = true; // set led
     DLY_ms(50);                                  // wait a bit
+      /*
+      Clear led
+     */
     FieldLedReset = true; //reset led
     // pinled::turnOn();
     // DLY_ms(50);                                  // wait a bit

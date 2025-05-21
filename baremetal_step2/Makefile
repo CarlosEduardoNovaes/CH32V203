@@ -122,7 +122,7 @@ $(FIRWARE_DIR)/$(TARGET_NAME).hex: $(FIRWARE_DIR)/$(TARGET_NAME).elf
 
 $(FIRWARE_DIR)/$(TARGET_NAME).asm: $(FIRWARE_DIR)/$(TARGET_NAME).elf
 	@echo "Disassembling to $(FIRWARE_DIR)/$(TARGET_NAME).asm ..."
-	@$(OBJDUMP) -d $(FIRWARE_DIR)/$(TARGET_NAME).elf > $(FIRWARE_DIR)/$(TARGET_NAME).asm
+	@$(OBJDUMP) -d -C -S $(FIRWARE_DIR)/$(TARGET_NAME).elf > $(FIRWARE_DIR)/$(TARGET_NAME).asm
 
 size:
 	@echo "------------------"
