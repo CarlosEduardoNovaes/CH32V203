@@ -1,7 +1,7 @@
 module;
 
-export module barestd:traits;
-namespace barestd
+export module bare:traits;
+namespace bare
 {
     // is_integral<T>
     export template<typename T> struct is_integral       { static constexpr bool value = false; };

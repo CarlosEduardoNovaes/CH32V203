@@ -1,5 +1,5 @@
 module;
 
-export module barestd;
+export module bare;
 
 export import :traits;

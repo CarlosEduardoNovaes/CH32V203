@@ -1,7 +1,7 @@
 module;
 
 #include <stdint.h>
-import barestd; // for is_integral and is_enum
+import bare; // for is_integral and is_enum
 
 
 /**
@@ -51,7 +51,8 @@ class RegisterOperation
      * @param value Value to set on the register
      * @param mask  Mask to clear
      */
-    inline RegisterOperation(TP_RegType value, TP_RegType mask):
+    inline __attribute__((always_inline))
+    constexpr RegisterOperation(TP_RegType value, TP_RegType mask):
     m_value(value),
     m_mask(mask)
     {};
@@ -63,7 +64,8 @@ class RegisterOperation
      * 
      * @return constexpr volatile& 
      */
-    inline static constexpr volatile TP_RegType& m_reg()
+    inline __attribute__((always_inline))
+    static constexpr volatile TP_RegType& m_reg()
     {
         return *reinterpret_cast<volatile TP_RegType*>(TP_Addr);
     };
@@ -90,7 +92,8 @@ class RegisterOperation
      * @brief Apply the operation to the register
      * 
      */
-    inline void apply() const
+    inline __attribute__((always_inline))
+    void apply() const
     {
         m_reg() = (m_reg() & ~m_mask) | m_value;
     };
@@ -100,7 +103,8 @@ class RegisterOperation
      * 
      * @return TP_RegType 
      */
-    inline TP_RegType read() const
+    inline __attribute__((always_inline))
+    TP_RegType read() const
     {
         return m_reg();
     };
@@ -109,7 +113,8 @@ class RegisterOperation
      * @brief Clear the mask bits in the register
      * 
      */
-    inline void clearMaskBits() const {
+    inline __attribute__((always_inline))
+    void clearMaskBits() const {
         m_reg() &= ~m_mask;
     };
 
@@ -118,7 +123,8 @@ class RegisterOperation
      * 
      * 
      */
-    inline void setMaskBits() const {
+    inline __attribute__((always_inline))    
+    void setMaskBits() const {
         m_reg() |= m_mask;
     };
 
@@ -129,6 +135,7 @@ class RegisterOperation
      * @param other 
      * @return constexpr RegisterOperation 
      */
+    inline __attribute__((always_inline))    
     constexpr RegisterOperation operator|(const RegisterOperation& other) const {
         return RegisterOperation{(m_value | other.m_value), (m_mask | other.m_mask)};
     };
@@ -136,6 +143,7 @@ class RegisterOperation
 };
 
 
+export
 /**
  * @brief BitView class to manipulate bits in a register
  * 
@@ -145,7 +153,7 @@ class RegisterOperation
  * @tparam TP_Size the size of the field in bits
  * @tparam TP_FieldType the type of the field, e.g. uint32_t
  */
-export template<
+template<
     class           TP_RegType,
     //TP_RegType*     TP_Addr, // for testing fake registers
     uintptr_t       TP_Addr, // for real use
@@ -160,9 +168,9 @@ class BitView
      * @brief static assertions to check the types of the template parameters
      * 
      */
-    static_assert(barestd::is_integral_v<TP_RegType>, "RegType must be integral");
+    static_assert(bare::is_integral_v<TP_RegType>, "RegType must be integral");
     static_assert(
-        barestd::is_integral_v<TP_FieldType> || barestd::is_enum_v<TP_FieldType>,
+        bare::is_integral_v<TP_FieldType> || bare::is_enum_v<TP_FieldType>,
         "FieldType must be integral or enum with integral base"
     );
 
