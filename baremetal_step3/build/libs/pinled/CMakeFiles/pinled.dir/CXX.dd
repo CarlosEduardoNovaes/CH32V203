@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build libs/pinled/CMakeFiles/pinled.dir/pinled.cppm.obj | libs/pinled/CMakeFiles/pinled.dir/pinled.gcm: dyndep
+  restat = 1
+

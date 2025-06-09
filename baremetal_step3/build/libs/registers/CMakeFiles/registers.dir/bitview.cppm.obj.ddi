@@ -1,0 +1,20 @@
+{
+"rules": [
+{
+"primary-output": "libs/registers/CMakeFiles/registers.dir/bitview.cppm.obj",
+"provides": [
+{
+"logical-name": "registers",
+"is-interface": true
+}
+],
+"requires": [
+{
+"logical-name": "bare"
+}
+]
+}
+],
+"version": 0,
+"revision": 0
+}

@@ -1,0 +1,4 @@
+ninja_dyndep_version = 1.0
+build libs/registers/CMakeFiles/registers.dir/bitview.cppm.obj | libs/registers/CMakeFiles/registers.dir/registers.gcm: dyndep | libs/bare/CMakeFiles/bare.dir/bare.gcm
+  restat = 1
+

@@ -1,0 +1,19 @@
+{
+	"modules" : 
+	{
+		"pinled" : 
+		{
+			"bmi" : "/home/carlo/CH32V203/baremetal_step3/build/libs/pinled/CMakeFiles/pinled.dir/pinled.gcm",
+			"is-private" : true
+		}
+	},
+	"references" : 
+	{
+		"pinled" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "libs/pinled/CMakeFiles/pinled.dir/pinled.gcm"
+		}
+	},
+	"usages" : {}
+}

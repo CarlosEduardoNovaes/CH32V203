@@ -1,0 +1,20 @@
+{
+"rules": [
+{
+"primary-output": "libs/bare/CMakeFiles/bare.dir/bare.cppm.o",
+"provides": [
+{
+"logical-name": "bare",
+"is-interface": true
+}
+],
+"requires": [
+{
+"logical-name": "bare:traits"
+}
+]
+}
+],
+"version": 0,
+"revision": 0
+}

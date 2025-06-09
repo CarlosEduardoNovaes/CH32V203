@@ -1,0 +1,17 @@
+{
+"rules": [
+{
+"primary-output": "libs/pinled/CMakeFiles/pinled.dir/pinled.cppm.o",
+"provides": [
+{
+"logical-name": "pinled",
+"is-interface": true
+}
+],
+"requires": [
+]
+}
+],
+"version": 0,
+"revision": 0
+}

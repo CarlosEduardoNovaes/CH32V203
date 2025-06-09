@@ -1,0 +1,15 @@
+/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/firmware.elf.dir
+/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/edit_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/rebuild_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/bare/CMakeFiles/bare.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/bare/CMakeFiles/edit_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/bare/CMakeFiles/rebuild_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/pinled/CMakeFiles/pinled.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/pinled/CMakeFiles/edit_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/pinled/CMakeFiles/rebuild_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/registers/CMakeFiles/registers.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/registers/CMakeFiles/edit_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/registers/CMakeFiles/rebuild_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/system/CMakeFiles/system.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/system/CMakeFiles/edit_cache.dir
+/home/carlo/CH32V203/baremetal_step3/build/libs/system/CMakeFiles/rebuild_cache.dir

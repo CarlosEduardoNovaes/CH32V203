@@ -1,0 +1,3 @@
+$root .
+bare libs/bare/CMakeFiles/bare.dir/bare.gcm
+bare:traits libs/bare/CMakeFiles/bare.dir/bare-traits.gcm

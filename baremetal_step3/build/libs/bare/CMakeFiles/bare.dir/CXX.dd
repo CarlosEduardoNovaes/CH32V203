@@ -1,0 +1,7 @@
+ninja_dyndep_version = 1.0
+build libs/bare/CMakeFiles/bare.dir/bare.cppm.obj | libs/bare/CMakeFiles/bare.dir/bare.gcm: dyndep | libs/bare/CMakeFiles/bare.dir/bare-traits.gcm
+  restat = 1
+
+build libs/bare/CMakeFiles/bare.dir/bare-traits.cppm.obj | libs/bare/CMakeFiles/bare.dir/bare-traits.gcm: dyndep
+  restat = 1
+

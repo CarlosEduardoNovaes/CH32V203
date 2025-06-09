@@ -1,0 +1,35 @@
+{
+	"modules" : 
+	{
+		"registers" : 
+		{
+			"bmi" : "/home/carlo/CH32V203/baremetal_step3/build/libs/registers/CMakeFiles/registers.dir/registers.gcm",
+			"is-private" : true
+		}
+	},
+	"references" : 
+	{
+		"bare" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "libs/bare/CMakeFiles/bare.dir/bare.gcm"
+		},
+		"bare:traits" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "libs/bare/CMakeFiles/bare.dir/bare-traits.gcm"
+		},
+		"registers" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "libs/registers/CMakeFiles/registers.dir/registers.gcm"
+		}
+	},
+	"usages" : 
+	{
+		"bare" : 
+		[
+			"bare:traits"
+		]
+	}
+}

@@ -1,0 +1,43 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "",
+	"cxx-modules" : 
+	{
+		"libs/bare/CMakeFiles/bare.dir/bare-traits.cppm.obj" : 
+		{
+			"bmi-only" : false,
+			"destination" : null,
+			"name" : "cxx_modules",
+			"relative-directory" : "",
+			"source" : "/home/carlo/CH32V203/baremetal_step3/libs/bare/bare-traits.cppm",
+			"type" : "CXX_MODULES",
+			"visibility" : "PRIVATE"
+		},
+		"libs/bare/CMakeFiles/bare.dir/bare.cppm.obj" : 
+		{
+			"bmi-only" : false,
+			"destination" : null,
+			"name" : "cxx_modules",
+			"relative-directory" : "",
+			"source" : "/home/carlo/CH32V203/baremetal_step3/libs/bare/bare.cppm",
+			"type" : "CXX_MODULES",
+			"visibility" : "PRIVATE"
+		}
+	},
+	"dir-cur-bld" : "/home/carlo/CH32V203/baremetal_step3/build/libs/bare",
+	"dir-cur-src" : "/home/carlo/CH32V203/baremetal_step3/libs/bare",
+	"dir-top-bld" : "/home/carlo/CH32V203/baremetal_step3/build",
+	"dir-top-src" : "/home/carlo/CH32V203/baremetal_step3",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/carlo/CH32V203/baremetal_step3/include"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "/home/carlo/CH32V203/baremetal_step3/build/libs/bare/CMakeFiles/bare.dir"
+}

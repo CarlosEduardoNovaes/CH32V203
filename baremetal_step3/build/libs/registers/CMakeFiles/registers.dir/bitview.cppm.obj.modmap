@@ -1,0 +1,3 @@
+$root .
+registers libs/registers/CMakeFiles/registers.dir/registers.gcm
+bare 

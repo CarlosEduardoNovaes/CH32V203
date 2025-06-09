@@ -1,0 +1,36 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "GNU",
+	"compiler-simulate-id" : "",
+	"config" : "",
+	"cxx-modules" : 
+	{
+		"libs/registers/CMakeFiles/registers.dir/bitview.cppm.obj" : 
+		{
+			"bmi-only" : false,
+			"destination" : null,
+			"name" : "cxx_modules",
+			"relative-directory" : "",
+			"source" : "/home/carlo/CH32V203/baremetal_step3/libs/registers/bitview.cppm",
+			"type" : "CXX_MODULES",
+			"visibility" : "PRIVATE"
+		}
+	},
+	"dir-cur-bld" : "/home/carlo/CH32V203/baremetal_step3/build/libs/registers",
+	"dir-cur-src" : "/home/carlo/CH32V203/baremetal_step3/libs/registers",
+	"dir-top-bld" : "/home/carlo/CH32V203/baremetal_step3/build",
+	"dir-top-src" : "/home/carlo/CH32V203/baremetal_step3",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"/home/carlo/CH32V203/baremetal_step3/include"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : 
+	[
+		"/home/carlo/CH32V203/baremetal_step3/build/libs/bare/CMakeFiles/bare.dir"
+	],
+	"module-dir" : "/home/carlo/CH32V203/baremetal_step3/build/libs/registers/CMakeFiles/registers.dir"
+}

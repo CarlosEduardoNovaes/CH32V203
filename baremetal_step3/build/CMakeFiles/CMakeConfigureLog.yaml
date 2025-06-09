@@ -1,0 +1,465 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineSystem.cmake:228 (message)"
+      - "CMakeLists.txt"
+    message: |
+      The target system is: Generic -  - riscv
+      The host system is: Linux - 6.6.87.1-microsoft-standard-WSL2 - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+      
+      The C compiler identification is GNU, found in:
+        /home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/3.28.3/CompilerIdC/a.out
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++ 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is GNU, found in:
+        /home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/3.28.3/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-HNitwl"
+      binary: "/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-HNitwl"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-HNitwl'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_8220c
+        [1/2] /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc   -v -o CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c
+        Using built-in specs.
+        COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc
+        Target: riscv-none-elf
+        Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib
+        Thread model: single
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_8220c.dir/'
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/cc1 -quiet -v -imultilib . -iprefix /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/ -isysroot /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_8220c.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -march=rv32imac -version -o /tmp/cclLoayC.s
+        GNU C17 (xPack GNU RISC-V Embedded GCC x86_64) version 14.2.0 (riscv-none-elf)
+        	compiled by GNU C version 13.2.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include"
+        ignoring nonexistent directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/usr/local/include"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include-fixed"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include
+        End of search list.
+        Compiler executable checksum: 5e106d87feaeb676dc2fd5b218e01672
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_8220c.dir/'
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/as -v --traditional-format -march=rv32imac -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -o CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj /tmp/cclLoayC.s
+        GNU assembler version 2.43.1 (riscv-none-elf) using BFD version (xPack GNU RISC-V Embedded GCC x86_64) 2.43.1
+        COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/
+        LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.'
+        [2/2] : && /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc  -v CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj -o cmTC_8220c   && :
+        Using built-in specs.
+        COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc
+        COLLECT_LTO_WRAPPER=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper
+        Target: riscv-none-elf
+        Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib
+        Thread model: single
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) 
+        COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/
+        LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_8220c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'cmTC_8220c.'
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/collect2 -plugin /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/liblto_plugin.so -plugin-opt=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cc1XL3Wk.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf -melf32lriscv -X -o cmTC_8220c /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0 -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj -lgcc --start-group -lc -lgloss --end-group -lgcc /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_8220c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'cmTC_8220c.'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include]
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed]
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include]
+        end of search list found
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include]
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include-fixed]
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include]
+        implicit include dirs: [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include-fixed;/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:159 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(riscv-none-elf-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: '/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-HNitwl']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_8220c]
+        ignore line: [[1/2] /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc   -v -o CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj -c /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc]
+        ignore line: [Target: riscv-none-elf]
+        ignore line: [Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib]
+        ignore line: [Thread model: single]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_8220c.dir/']
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/cc1 -quiet -v -imultilib . -iprefix /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/ -isysroot /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf /usr/share/cmake-3.28/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_8220c.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -march=rv32imac -version -o /tmp/cclLoayC.s]
+        ignore line: [GNU C17 (xPack GNU RISC-V Embedded GCC x86_64) version 14.2.0 (riscv-none-elf)]
+        ignore line: [	compiled by GNU C version 13.2.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include"]
+        ignore line: [ignoring nonexistent directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/usr/local/include"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include-fixed"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: 5e106d87feaeb676dc2fd5b218e01672]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_8220c.dir/']
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/as -v --traditional-format -march=rv32imac -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -o CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj /tmp/cclLoayC.s]
+        ignore line: [GNU assembler version 2.43.1 (riscv-none-elf) using BFD version (xPack GNU RISC-V Embedded GCC x86_64) 2.43.1]
+        ignore line: [COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/]
+        ignore line: [LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.']
+        ignore line: [[2/2] : && /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc  -v CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj -o cmTC_8220c   && :]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-gcc]
+        ignore line: [COLLECT_LTO_WRAPPER=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper]
+        ignore line: [Target: riscv-none-elf]
+        ignore line: [Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib]
+        ignore line: [Thread model: single]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) ]
+        ignore line: [COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/]
+        ignore line: [LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_8220c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'cmTC_8220c.']
+        link line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/collect2 -plugin /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/liblto_plugin.so -plugin-opt=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/cc1XL3Wk.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf -melf32lriscv -X -o cmTC_8220c /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0 -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj -lgcc --start-group -lc -lgloss --end-group -lgcc /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/cc1XL3Wk.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgloss] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--sysroot=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf] ==> ignore
+          arg [-melf32lriscv] ==> ignore
+          arg [-X] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_8220c] ==> ignore
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o] ==> obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o]
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o] ==> obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib]
+          arg [CMakeFiles/cmTC_8220c.dir/CMakeCCompilerABI.c.obj] ==> ignore
+          arg [-lgcc] ==> lib [gcc]
+          arg [--start-group] ==> ignore
+          arg [-lc] ==> lib [c]
+          arg [-lgloss] ==> lib [gloss]
+          arg [--end-group] ==> ignore
+          arg [-lgcc] ==> lib [gcc]
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o] ==> obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+        collapse obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib/crt0.o]
+        collapse obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtbegin.o]
+        collapse obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib]
+        implicit libs: [gcc;c;gloss;gcc]
+        implicit objs: [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib/crt0.o;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtbegin.o;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+        implicit dirs: [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc;/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-uaDrOf"
+      binary: "/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-uaDrOf"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: ""
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-uaDrOf'
+        
+        Run Build Command(s): /usr/bin/ninja -v cmTC_a09cd
+        [1/2] /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++   -v -o CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp
+        Using built-in specs.
+        COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++
+        Target: riscv-none-elf
+        Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib
+        Thread model: single
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) 
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_a09cd.dir/'
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/ -isysroot /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_a09cd.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -march=rv32imac -version -o /tmp/cc1q7VPs.s
+        GNU C++17 (xPack GNU RISC-V Embedded GCC x86_64) version 14.2.0 (riscv-none-elf)
+        	compiled by GNU C version 13.2.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
+        
+        GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/riscv-none-elf/."
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/backward"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include"
+        ignoring nonexistent directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/usr/local/include"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include-fixed"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include"
+        ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/riscv-none-elf/.
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/backward
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include
+        End of search list.
+        Compiler executable checksum: 998f3074ade6decc46008d264c9a649c
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_a09cd.dir/'
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/as -v --traditional-format -march=rv32imac -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -o CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj /tmp/cc1q7VPs.s
+        GNU assembler version 2.43.1 (riscv-none-elf) using BFD version (xPack GNU RISC-V Embedded GCC x86_64) 2.43.1
+        COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/
+        LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.'
+        [2/2] : && /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++  -v CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_a09cd   && :
+        Using built-in specs.
+        COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++
+        COLLECT_LTO_WRAPPER=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper
+        Target: riscv-none-elf
+        Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib
+        Thread model: single
+        Supported LTO compression algorithms: zlib zstd
+        gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) 
+        COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/
+        LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a09cd' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'cmTC_a09cd.'
+         /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/collect2 -plugin /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/liblto_plugin.so -plugin-opt=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccP4hEVA.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf -melf32lriscv -X -o cmTC_a09cd /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0 -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm -lgcc --start-group -lc -lgloss --end-group -lgcc /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a09cd' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'cmTC_a09cd.'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0]
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/riscv-none-elf/.]
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/backward]
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include]
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed]
+          add: [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include]
+        end of search list found
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include/c++/14.2.0]
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/riscv-none-elf/.] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include/c++/14.2.0/riscv-none-elf]
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/backward] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include/c++/14.2.0/backward]
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include]
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include-fixed]
+        collapse include dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include]
+        implicit include dirs: [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include/c++/14.2.0;/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include/c++/14.2.0/riscv-none-elf;/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include/c++/14.2.0/backward;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/include-fixed;/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:159 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(riscv-none-elf-ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: '/home/carlo/CH32V203/baremetal_step3/build/CMakeFiles/CMakeScratch/TryCompile-uaDrOf']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/ninja -v cmTC_a09cd]
+        ignore line: [[1/2] /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++   -v -o CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj -c /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++]
+        ignore line: [Target: riscv-none-elf]
+        ignore line: [Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib]
+        ignore line: [Thread model: single]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) ]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_a09cd.dir/']
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/cc1plus -quiet -v -imultilib . -iprefix /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/ -isysroot /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf /usr/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_a09cd.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -march=rv32imac -version -o /tmp/cc1q7VPs.s]
+        ignore line: [GNU C++17 (xPack GNU RISC-V Embedded GCC x86_64) version 14.2.0 (riscv-none-elf)]
+        ignore line: [	compiled by GNU C version 13.2.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
+        ignore line: []
+        ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/riscv-none-elf/."]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/backward"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include"]
+        ignore line: [ignoring nonexistent directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/usr/local/include"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/include-fixed"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/../../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include"]
+        ignore line: [ignoring duplicate directory "/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/riscv-none-elf/.]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include/c++/14.2.0/backward]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/include-fixed]
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/include]
+        ignore line: [End of search list.]
+        ignore line: [Compiler executable checksum: 998f3074ade6decc46008d264c9a649c]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_a09cd.dir/']
+        ignore line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/as -v --traditional-format -march=rv32imac -march=rv32imac -mabi=ilp32 -misa-spec=20191213 -o CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj /tmp/cc1q7VPs.s]
+        ignore line: [GNU assembler version 2.43.1 (riscv-none-elf) using BFD version (xPack GNU RISC-V Embedded GCC x86_64) 2.43.1]
+        ignore line: [COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/]
+        ignore line: [LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj' '-c' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [[2/2] : && /home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++  -v CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_a09cd   && :]
+        ignore line: [Using built-in specs.]
+        ignore line: [COLLECT_GCC=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/riscv-none-elf-g++]
+        ignore line: [COLLECT_LTO_WRAPPER=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper]
+        ignore line: [Target: riscv-none-elf]
+        ignore line: [Configured with: /__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/sources/gcc-14.2.0/configure --prefix=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application --with-sysroot=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/application/riscv-none-elf --with-native-system-header-dir=/include --infodir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/info --mandir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/man --htmldir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/html --pdfdir=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install/share/pdf --build=x86_64-pc-linux-gnu --host=x86_64-pc-linux-gnu --target=riscv-none-elf --disable-nls --disable-shared --disable-threads --disable-tls --enable-checking=release --enable-languages=c,c++ --with-gmp=/__w/riscv-none-elf-gcc-xpack/riscv-none-elf-gcc-xpack/build-assets/build/linux-x64/x86_64-pc-linux-gnu/install --with-newlib --with-pkgversion='xPack GNU RISC-V Embedded GCC x86_64' --with-gnu-as --with-gnu-ld --with-system-zlib --with-abi=ilp32 --with-arch=rv32imac --enable-multilib]
+        ignore line: [Thread model: single]
+        ignore line: [Supported LTO compression algorithms: zlib zstd]
+        ignore line: [gcc version 14.2.0 (xPack GNU RISC-V Embedded GCC x86_64) ]
+        ignore line: [COMPILER_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/bin/]
+        ignore line: [LIBRARY_PATH=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/:/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib/]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a09cd' '-march=rv32imac' '-mabi=ilp32' '-misa-spec=20191213' '-march=rv32imac' '-dumpdir' 'cmTC_a09cd.']
+        link line: [ /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/collect2 -plugin /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/liblto_plugin.so -plugin-opt=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccP4hEVA.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgloss -plugin-opt=-pass-through=-lgcc --sysroot=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf -melf32lriscv -X -o cmTC_a09cd /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0 -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib -L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj -lstdc++ -lm -lgcc --start-group -lc -lgloss --end-group -lgcc /home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/collect2] ==> ignore
+          arg [-plugin] ==> ignore
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/liblto_plugin.so] ==> ignore
+          arg [-plugin-opt=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../libexec/gcc/riscv-none-elf/14.2.0/lto-wrapper] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccP4hEVA.res] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lc] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgloss] ==> ignore
+          arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+          arg [--sysroot=/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf] ==> ignore
+          arg [-melf32lriscv] ==> ignore
+          arg [-X] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_a09cd] ==> ignore
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o] ==> obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o]
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o] ==> obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib]
+          arg [-L/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib] ==> dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib]
+          arg [CMakeFiles/cmTC_a09cd.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lm] ==> lib [m]
+          arg [-lgcc] ==> lib [gcc]
+          arg [--start-group] ==> ignore
+          arg [-lc] ==> lib [c]
+          arg [-lgloss] ==> lib [gloss]
+          arg [--end-group] ==> ignore
+          arg [-lgcc] ==> lib [gcc]
+          arg [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o] ==> obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+        collapse obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib/crt0.o] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib/crt0.o]
+        collapse obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtbegin.o] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtbegin.o]
+        collapse obj [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/crtend.o] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../lib/gcc/riscv-none-elf/14.2.0/../../../../riscv-none-elf/lib] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib]
+        collapse library dir [/home/carlo/CH32V203/baremetal_step3/toolchain/bin/../riscv-none-elf/lib] ==> [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib]
+        implicit libs: [stdc++;m;gcc;c;gloss;gcc]
+        implicit objs: [/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib/crt0.o;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtbegin.o;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0/crtend.o]
+        implicit dirs: [/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc/riscv-none-elf/14.2.0;/home/carlo/CH32V203/baremetal_step3/toolchain/lib/gcc;/home/carlo/CH32V203/baremetal_step3/toolchain/riscv-none-elf/lib]
+        implicit fwks: []
+      
+      
+...
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:1131 (message)"
+      - "/usr/share/cmake-3.28/Modules/CMakeDetermineASMCompiler.cmake:131 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "CMakeLists.txt:4 (project)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" matched "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      riscv-none-elf-gcc (xPack GNU RISC-V Embedded GCC x86_64) 14.2.0
+      Copyright (C) 2024 Free Software Foundation, Inc.
+      This is free software; see the source for copying conditions.  There is NO
+      warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+      
+...
