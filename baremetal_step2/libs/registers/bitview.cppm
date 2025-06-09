@@ -21,8 +21,7 @@ export
  */
 template<
     class           TP_RegType,
-    // TP_RegType*     TP_Addr 
-    uintptr_t       TP_Addr  // for real use
+    uintptr_t       TP_Addr  
 >
 class RegisterOperation
 {
@@ -34,11 +33,12 @@ class RegisterOperation
     */
     template<
         class           TPF_RegType,
-        //TPF_RegType*     TPF_Addr, // for testing fake registers
-        uintptr_t       TPF_Addr, // for real use
-        int8_t          TPF_Offset,
-        int8_t          TPF_Size,
-        class           TPF_FieldType
+        uintptr_t       TPF_Addr, 
+        uint8_t         TPF_Offset,
+        uint8_t         TPF_Size,
+        class           TPF_FieldType,
+        uint8_t         TPF_ArraySize,
+        uint8_t         TPF_ArrayNullBits
     >
     friend class BitView;
     
@@ -157,9 +157,11 @@ template<
     class           TP_RegType,
     //TP_RegType*     TP_Addr, // for testing fake registers
     uintptr_t       TP_Addr, // for real use
-    int8_t          TP_Offset,
-    int8_t          TP_Size,
-    class           TP_FieldType = TP_RegType
+    uint8_t         TP_Offset,
+    uint8_t         TP_Size,
+    class           TP_FieldType = TP_RegType,
+    uint8_t         TP_ArraySize = 1,
+    uint8_t         TP_ArrayNullBits = 0
 >
 class BitView
 {
@@ -185,71 +187,53 @@ class BitView
      * @param value The value to set in the register
      * @return constexpr RegisterOperation<TP_RegType, TP_Addr> 
      */
-    [[nodiscard]]
-    constexpr RegisterOperation<TP_RegType, TP_Addr> prepare(TP_RegType value=0) const {
+    static inline __attribute__((always_inline)) [[nodiscard]]
+    constexpr RegisterOperation<TP_RegType, TP_Addr> prepare(TP_RegType value=0) {
         return RegisterOperation<TP_RegType, TP_Addr>((value<<TP_Offset), (c_reg_mask));
     };
 
+    template<uint8_t TP_ArrayIndex>
+    static inline __attribute__((always_inline)) [[nodiscard]]
+    constexpr RegisterOperation<TP_RegType, TP_Addr> prepareAt(TP_RegType value=0) {
+        static_assert(TP_ArrayIndex<TP_ArraySize, "Cannot index more itens than array size");
+        return RegisterOperation<TP_RegType, TP_Addr>((value<<(TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits))), (c_reg_mask));
+    };
+
     /**
-     * @brief Extract value from the register
+     * @brief read the value from the register
      * 
-     * @return constexpr TP_RegType 
+     * @return TP_RegType 
      */
-    constexpr TP_RegType get() const {
+    static constexpr inline __attribute__((always_inline))
+    TP_RegType read() {
         return (prepare().read() >> TP_Offset) & c_val_mask;        
+    };
+
+
+    template<uint8_t TP_ArrayIndex>
+    static constexpr inline __attribute__((always_inline))
+    TP_RegType readAt() {
+        return (prepareAt<TP_ArrayIndex>().read() >> (TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits))) & c_val_mask;        
     };
     
     /**
      * @brief Set the value in the register
      * 
-     * @param value The value to set in the register
+     * @param v The value to set in the register
      */
-    constexpr void set(TP_RegType value) const {
-        prepare(value).apply();
+    static constexpr inline __attribute__((always_inline))
+    void write(TP_RegType v)
+    {
+        prepare(v).apply();
     };
 
-    /**
-     * @brief Assign the value to the register
-     * 
-     * @param value The value to set in the register
-     * @return BitView& 
-     */
-    inline BitView& operator=(TP_FieldType value)
-    {
-        set(value);
-        return *this;
-    }
 
-
-    /**
-     * @brief 
-     * 
-     * @param value 
-     * @return constexpr RegisterOperation<TP_RegType, TP_Addr> 
-     */
-    [[nodiscard]]
-    constexpr RegisterOperation<TP_RegType, TP_Addr> operator() (TP_FieldType value)
+    template<uint8_t TP_ArrayIndex>
+    static constexpr inline __attribute__((always_inline))
+    void writeAt(TP_RegType v)
     {
-        return prepare(value);
+        prepareAt<TP_ArrayIndex>(v).apply();
     };
-
-    /**
-     * @brief Compare the value of the field with the given value
-     * 
-     * @param value 
-     * @return true 
-     * @return false 
-     */
-    inline bool operator==(TP_FieldType value) const { return get() == value; }
-
-    /**
-     * @brief Compare the value of the field with the given value
-     * 
-     * @param value 
-     * @return true 
-     * @return false 
-     */
-    inline bool operator!=(TP_FieldType value) const { return !(*this == value); }
 
 };
 
@@ -258,26 +242,32 @@ class BitView
 export template<
     //uint32_t*     TP_Addr, // for testing fake registers
     uintptr_t       TP_Addr, // for real use
-    int8_t          TP_Offset,
-    int8_t          TP_Size,
-    class           TP_FieldType = uint32_t
+    uint8_t         TP_Offset,
+    uint8_t         TP_Size,
+    class           TP_FieldType = uint32_t,
+    uint8_t         TP_ArraySize = 1,
+    uint8_t         TP_ArrayNullBits = 0
 >
-using BitView32 = BitView<uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
+using BitView32 = BitView<uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
 
 export template<
     //uint16_t*     TP_Addr, // for testing fake registers
     uintptr_t       TP_Addr, // for real use
-    int8_t          TP_Offset,
-    int8_t          TP_Size,
-    class           TP_FieldType = uint16_t
+    uint8_t         TP_Offset,
+    uint8_t         TP_Size,
+    class           TP_FieldType = uint16_t,
+    uint8_t         TP_ArraySize = 1,
+    uint8_t         TP_ArrayNullBits = 0
 >
-using BitView16 = BitView<uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
+using BitView16 = BitView<uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
 
 export template<
     //uint8_t*     TP_Addr, // for testing fake registers
     uintptr_t       TP_Addr, // for real use
-    int8_t          TP_Offset,
-    int8_t          TP_Size,
-    class           TP_FieldType = uint8_t
+    uint8_t         TP_Offset,
+    uint8_t         TP_Size,
+    class           TP_FieldType = uint8_t,
+    uint8_t         TP_ArraySize = 1,
+    uint8_t         TP_ArrayNullBits = 0
 >
-using BitView8 = BitView<uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
+using BitView8 = BitView<uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
