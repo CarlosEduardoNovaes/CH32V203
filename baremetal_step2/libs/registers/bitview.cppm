@@ -175,8 +175,10 @@ class BitView
         bare::is_integral_v<TP_FieldType> || bare::is_enum_v<TP_FieldType>,
         "FieldType must be integral or enum with integral base"
     );
+    static_assert(TP_Offset < (sizeof(TP_RegType) * 8), "First bit must be less than the size of the register");
+    static_assert(TP_ArraySize*(TP_Size+TP_ArrayNullBits)+TP_Offset < (sizeof(TP_RegType) * 8), "Last bit must be less than the size of the register");
 
-    
+
     static constexpr TP_RegType c_val_mask = ((1u << TP_Size) - 1); // mask for the field value
     static constexpr TP_RegType c_reg_mask = c_val_mask << TP_Offset; // mask for the register memory
 
