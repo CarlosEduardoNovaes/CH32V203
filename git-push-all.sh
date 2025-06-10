@@ -6,7 +6,7 @@
 read -p "Mensagem de commit: " mensagem
 #mensagem="comit"
 
-#git status
+git status
 git add .
 git commit -m "$mensagem"
 BRANCH=$(git branch --show-current)
