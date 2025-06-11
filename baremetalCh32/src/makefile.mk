@@ -1,5 +1,5 @@
 CURRENT_DIR = $(CURRENT_INCLUDE_DIR)
-PROJECT_NAME			:= baremetal
+
 
 
 # RULES
