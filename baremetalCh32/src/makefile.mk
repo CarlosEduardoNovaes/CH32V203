@@ -1,0 +1,9 @@
+CURRENT_DIR = $(CURRENT_INCLUDE_DIR)
+PROJECT_NAME			:= baremetal
+
+
+# RULES
+$(DIRS_FIRMWARE)/$(PROJECT_NAME).elf: $(CURRENT_DIR)/main.c $(BUILD_OBJECT_STARTUP)
+	@echo "CURRENT DIR SRC = $^"
+	@mkdir -p $(@D)
+	$(TOOLCHAIN_CC) -c $< $(CCFLAGS) -o $@
