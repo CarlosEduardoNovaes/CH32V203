@@ -1,11 +1,12 @@
-COMPONENT_DEPENDENCIES := 
-COMPONENT_SOURCE_FILES :=  bare-traits.cppm bare.cppm
+# COMPONENT CONFIGURATION
+COMPONENT_DEPENDENCIES      := 
+COMPONENT_SOURCE_FILES      := bare.traits.cppm bare.cppm
 
-
-COMPONENT_NAME := $(CURRENT_COMPONENT)
-COMPONENT_DIRECTORY := $(CURRENT_COMPONENT_DIRECTORY)
-COMPONENT_TARGET := $(CURRENT_TARGET)
-COMPONENT_TARGET_DIRECTORY := $(CURRENT_TARGET_DIRECTORY)
+# INFERED VALUES
+COMPONENT_NAME              := $(CURRENT_COMPONENT)
+COMPONENT_DIRECTORY         := $(CURRENT_COMPONENT_DIRECTORY)
+COMPONENT_TARGET            := $(CURRENT_TARGET)
+COMPONENT_TARGET_DIRECTORY  := $(CURRENT_TARGET_DIRECTORY)
 
 COMPONENT_OBJECT_FILES :=   $(patsubst %.cpp,$(COMPONENT_TARGET_DIRECTORY)/%.o, \
                             $(patsubst %.cppm,$(COMPONENT_TARGET_DIRECTORY)/%.o, \
@@ -13,29 +14,34 @@ COMPONENT_OBJECT_FILES :=   $(patsubst %.cpp,$(COMPONENT_TARGET_DIRECTORY)/%.o, 
                             $(patsubst %.cxxm,$(COMPONENT_TARGET_DIRECTORY)/%.o, \
                             $(patsubst %.c,$(COMPONENT_TARGET_DIRECTORY)/%.o, $(COMPONENT_SOURCE_FILES))))))
 
+COMPONENT_DEPENDENCIES_OBJECTS :=  $(addprefix $(DIRS_BUILD)/$(DIRS_LIBRARIES)/lib, $(addsuffix .a, $(COMPONENT_DEPENDENCIES)))
 
 ${COMPONENT_TARGET}: $(COMPONENT_OBJECT_FILES)
-	@echo "Building: $@"
-	@echo "prerequisites: $^"
+	@echo "Joining objects into: $@"
 	@mkdir -p $(@D)
-	$(TOOLCHAIN_AR) -rcs  $@ $^
+	@$(TOOLCHAIN_AR) -rcs  $@ $^
 
-$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/%.c
+$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/src/%.c $(COMPONENT_DEPENDENCIES_OBJECTS)
+	@echo "      ... building object: $@"
 	@mkdir -p $(@D)
-	$(TOOLCHAIN_CC) $(CCFLAGS) -c $< -o $@
+	@$(TOOLCHAIN_CC) $(CCFLAGS) $(DEPENDENCIES_INCLUDE_DIRS) -c $< -o $@
 
-$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/%.cpp
+$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/src/%.cpp $(COMPONENT_DEPENDENCIES_OBJECTS)
+	@echo "      ... building object: $@"
 	@mkdir -p $(@D)
-	$(TOOLCHAIN_CXX) $(CXXFLAGS) -c $< -o $@
+	@$(TOOLCHAIN_CXX) $(CXXFLAGS) $(DEPENDENCIES_INCLUDE_DIRS) -c $< -o $@
 
-$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/%.cxx
+$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/src/%.cxx $(COMPONENT_DEPENDENCIES_OBJECTS)
+	@echo "      ... building object: $@"
 	@mkdir -p $(@D)
-	$(TOOLCHAIN_CXX) $(CXXFLAGS) -c $< -o $@
+	@$(TOOLCHAIN_CXX) $(CXXFLAGS) $(DEPENDENCIES_INCLUDE_DIRS) -c $< -o $@
 
-$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/%.cppm
-	@mkdir -p $(@D) 
-	$(TOOLCHAIN_CXX) $(CXXFLAGS) -x c++ -c $< -o $@
-
-$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/%.cxxm
+$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/src/%.cppm $(COMPONENT_DEPENDENCIES_OBJECTS)
+	@echo "      ... building object: $@"
 	@mkdir -p $(@D)
-	$(TOOLCHAIN_CXX) $(CXXFLAGS) -x c++ -c $< -o $@
+	@$(TOOLCHAIN_CXX) $(CXXFLAGS) $(DEPENDENCIES_INCLUDE_DIRS) -x c++ -c $< -o $@
+
+$(COMPONENT_TARGET_DIRECTORY)/%.o : $(COMPONENT_DIRECTORY)/src/%.cxxm $(COMPONENT_DEPENDENCIES_OBJECTS)
+	@echo "      ... building object: $@"
+	@mkdir -p $(@D)
+	@$(TOOLCHAIN_CXX) $(CXXFLAGS) $(DEPENDENCIES_INCLUDE_DIRS) -x c++ -c $< -o $@

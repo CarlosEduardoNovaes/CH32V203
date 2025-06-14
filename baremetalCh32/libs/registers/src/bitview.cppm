@@ -1,6 +1,6 @@
 module;
 
-#include <stdint.h>
+
 import bare; // for is_integral and is_enum
 
 
@@ -15,13 +15,13 @@ export
 /**
  * @brief Implement operations on registers
  * 
- * @tparam TP_RegType the type of the register, e.g. uint32_t
+ * @tparam TP_RegType the type of the register, e.g. bare::uint32_t
  * @tparam TP_Addr the address of the register, e.g. 0x40000000
  * @tparam use 
  */
 template<
-    class           TP_RegType,
-    uintptr_t       TP_Addr  
+    class                   TP_RegType,
+    bare::uintptr_t         TP_Addr
 >
 class RegisterOperation
 {
@@ -32,13 +32,13 @@ class RegisterOperation
      *        of RegisterOperation, but prevents other classes from doing so.
     */
     template<
-        class           TPF_RegType,
-        uintptr_t       TPF_Addr, 
-        uint8_t         TPF_Offset,
-        uint8_t         TPF_Size,
-        class           TPF_FieldType,
-        uint8_t         TPF_ArraySize,
-        uint8_t         TPF_ArrayNullBits
+        class               TPF_RegType,
+        bare::uintptr_t     TPF_Addr, 
+        bare::uint8_t       TPF_Offset,
+        bare::uint8_t       TPF_Size,
+        class               TPF_FieldType,
+        bare::uint8_t       TPF_ArraySize,
+        bare::uint8_t       TPF_ArrayNullBits
     >
     friend class BitView;
     
@@ -147,21 +147,20 @@ export
 /**
  * @brief BitView class to manipulate bits in a register
  * 
- * @tparam TP_RegType the type of the register, e.g. uint32_t
+ * @tparam TP_RegType the type of the register, e.g. bare::uint32_t
  * @tparam TP_Addr the address of the register, e.g. 0x40000000
  * @tparam TP_Offset the offset of the field in the register
  * @tparam TP_Size the size of the field in bits
- * @tparam TP_FieldType the type of the field, e.g. uint32_t
+ * @tparam TP_FieldType the type of the field, e.g. bare::uint32_t
  */
 template<
-    class           TP_RegType,
-    //TP_RegType*     TP_Addr, // for testing fake registers
-    uintptr_t       TP_Addr, // for real use
-    uint8_t         TP_Offset,
-    uint8_t         TP_Size,
-    class           TP_FieldType = TP_RegType,
-    uint8_t         TP_ArraySize = 1,
-    uint8_t         TP_ArrayNullBits = 0
+    class                   TP_RegType,
+    bare::uintptr_t         TP_Addr, // for real use
+    bare::uint8_t           TP_Offset,
+    bare::uint8_t           TP_Size,
+    class                   TP_FieldType = TP_RegType,
+    bare::uint8_t           TP_ArraySize = 1,
+    bare::uint8_t           TP_ArrayNullBits = 0
 >
 class BitView
 {
@@ -175,12 +174,13 @@ class BitView
         bare::is_integral_v<TP_FieldType> || bare::is_enum_v<TP_FieldType>,
         "FieldType must be integral or enum with integral base"
     );
-    static_assert(TP_Offset < (sizeof(TP_RegType) * 8), "First bit must be less than the size of the register");
-    static_assert(TP_ArraySize*(TP_Size+TP_ArrayNullBits)+TP_Offset < (sizeof(TP_RegType) * 8), "Last bit must be less than the size of the register");
 
-
+    
     static constexpr TP_RegType c_val_mask = ((1u << TP_Size) - 1); // mask for the field value
     static constexpr TP_RegType c_reg_mask = c_val_mask << TP_Offset; // mask for the register memory
+
+    template <typename... Args>
+    BitView(Args...) = delete; // Deletes all constructors
 
     public:
     /**
@@ -194,7 +194,7 @@ class BitView
         return RegisterOperation<TP_RegType, TP_Addr>((value<<TP_Offset), (c_reg_mask));
     };
 
-    template<uint8_t TP_ArrayIndex>
+    template<bare::uint8_t TP_ArrayIndex>
     static inline __attribute__((always_inline)) [[nodiscard]]
     constexpr RegisterOperation<TP_RegType, TP_Addr> prepareAt(TP_RegType value=0) {
         static_assert(TP_ArrayIndex<TP_ArraySize, "Cannot index more itens than array size");
@@ -206,14 +206,14 @@ class BitView
      * 
      * @return TP_RegType 
      */
-    static constexpr inline __attribute__((always_inline))
+    static constexpr inline __attribute__((always_inline)) [[nodiscard]]
     TP_RegType read() {
         return (prepare().read() >> TP_Offset) & c_val_mask;        
     };
 
 
-    template<uint8_t TP_ArrayIndex>
-    static constexpr inline __attribute__((always_inline))
+    template<bare::uint8_t TP_ArrayIndex>
+    static constexpr inline __attribute__((always_inline)) [[nodiscard]]
     TP_RegType readAt() {
         return (prepareAt<TP_ArrayIndex>().read() >> (TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits))) & c_val_mask;        
     };
@@ -230,7 +230,7 @@ class BitView
     };
 
 
-    template<uint8_t TP_ArrayIndex>
+    template<bare::uint8_t TP_ArrayIndex>
     static constexpr inline __attribute__((always_inline))
     void writeAt(TP_RegType v)
     {
@@ -242,34 +242,31 @@ class BitView
 
 // Specialized aliases
 export template<
-    //uint32_t*     TP_Addr, // for testing fake registers
-    uintptr_t       TP_Addr, // for real use
-    uint8_t         TP_Offset,
-    uint8_t         TP_Size,
-    class           TP_FieldType = uint32_t,
-    uint8_t         TP_ArraySize = 1,
-    uint8_t         TP_ArrayNullBits = 0
+    bare::uintptr_t         TP_Addr, // for real use
+    bare::uint8_t           TP_Offset,
+    bare::uint8_t           TP_Size,
+    class                   TP_FieldType = bare::uint32_t,
+    bare::uint8_t           TP_ArraySize = 1,
+    bare::uint8_t           TP_ArrayNullBits = 0
 >
-using BitView32 = BitView<uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
+using BitView32 = BitView<bare::uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
 
 export template<
-    //uint16_t*     TP_Addr, // for testing fake registers
-    uintptr_t       TP_Addr, // for real use
-    uint8_t         TP_Offset,
-    uint8_t         TP_Size,
-    class           TP_FieldType = uint16_t,
-    uint8_t         TP_ArraySize = 1,
-    uint8_t         TP_ArrayNullBits = 0
+    bare::uintptr_t         TP_Addr, // for real use
+    bare::uint8_t           TP_Offset,
+    bare::uint8_t           TP_Size,
+    class                   TP_FieldType = bare::uint16_t,
+    bare::uint8_t           TP_ArraySize = 1,
+    bare::uint8_t           TP_ArrayNullBits = 0
 >
-using BitView16 = BitView<uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
+using BitView16 = BitView<bare::uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
 
 export template<
-    //uint8_t*     TP_Addr, // for testing fake registers
-    uintptr_t       TP_Addr, // for real use
-    uint8_t         TP_Offset,
-    uint8_t         TP_Size,
-    class           TP_FieldType = uint8_t,
-    uint8_t         TP_ArraySize = 1,
-    uint8_t         TP_ArrayNullBits = 0
+    bare::uintptr_t         TP_Addr, // for real use
+    bare::uint8_t           TP_Offset,
+    bare::uint8_t           TP_Size,
+    class                   TP_FieldType = bare::uint8_t,
+    bare::uint8_t           TP_ArraySize = 1,
+    bare::uint8_t           TP_ArrayNullBits = 0
 >
-using BitView8 = BitView<uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
+using BitView8 = BitView<bare::uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;

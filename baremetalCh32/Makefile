@@ -1,3 +1,8 @@
+# PROJECT CONFIGURATION
+PROJECT_NAME			          := baremetal
+PROJECT_DEPENDENCIES        := pinled registers system
+
+
 TOOLCHAIN_URL  := https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v14.2.0-3/xpack-riscv-none-elf-gcc-14.2.0-3-linux-x64.tar.gz
 TOOLCHAIN_TAR  := $(notdir $(TOOLCHAIN_URL))
 TOOLCHAIN_TEMP := xpack-riscv-none-elf-gcc-14.2.0-3
@@ -21,12 +26,10 @@ TOOLCHAIN_OBJCOPY  = $(TOOLCHAIN_PREFIX)-objcopy
 TOOLCHAIN_OBJDUMP  = $(TOOLCHAIN_PREFIX)-objdump
 TOOLCHAIN_OBJSIZE  = $(TOOLCHAIN_PREFIX)-size
 NEWLIB   = /usr/include/newlib
-ISPTOOL  = chprog $(FIRWARE_DIR)/$(TARGET_NAME).bin
-CLEAN    = rm -f *.lst *.obj *.cof *.list *.map *.eep.hex *.o *.d
+ISPTOOL  = chprog $(DIRS_FIRMWARE)/$(PROJECT_NAME).bin
 
-# PROJECT CONFIGURATION
-PROJECT_NAME			    := baremetal
-PROJECT_DEPENDENCIES        := system
+
+
 
 # Microcontroller Settings
 CPU_MODEL					:= CH32V203x6
@@ -45,17 +48,17 @@ DIRS_SOURCE                 := src
 
 # Compiler Flags
 CCFLAGS_OPTIMIZATION 	= -O3 -ffunction-sections -fdata-sections -fno-builtin -flto
-CCFLAGS_DEBUG	 				= -g
+CCFLAGS_DEBUG	 				= 
 CCFLAGS_ARCHITECTURE  = $(CPUARCH) 
 CCFLAGS_DEFINES      	= -DF_CPU=$(F_CPU)
-CCFLAGS_GENERAL       = -Wall
-CCFLAGS_INCLUDES      = -I$(NEWLIB) -I$(LIBRARY_DIR) -I$(APPLICATION_DIR)
+CCFLAGS_GENERAL       = -Wall -nostdlib
+CCFLAGS_INCLUDES      = -I$(NEWLIB) -I$(DIRS_SOURCE)
 
 
-CCFLAGS     =  $(CCFLAGS_DEBUG) $(CCFLAGS_OPTIMIZATION)  -L$(BUILD_DIR)/$(LIBRARY_DIR) -nostdlib
+CCFLAGS     =  $(CCFLAGS_DEBUG) $(CCFLAGS_OPTIMIZATION) 
 CCFLAGS     += $(CCFLAGS_ARCHITECTURE) $(CCFLAGS_DEFINES) $(CCFLAGS_GENERAL) $(CCFLAGS_INCLUDES) 
-CXXFLAGS    = $(CFLAGS) -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts '-fmodule-mapper=|@g++-mapper-server -r'$(DIRS_BUILD)/gcm.cache  
-LDFLAGS  	  = -T$(STARTUP_DIR)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
+CXXFLAGS    = -fno-exceptions -fno-rtti -std=c++20 -fmodules-ts '-fmodule-mapper=|@g++-mapper-server -r'$(DIRS_BUILD)/gcm.cache  $(CCFLAGS)
+LDFLAGS  	  = -T$(DIRS_STARTUP)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=none
 
 
 
@@ -64,22 +67,23 @@ LDFLAGS  	  = -T$(STARTUP_DIR)/$(LDSCRIPT) -lgcc -Wl,--gc-sections,--build-id=no
 ALL_DEPENDENCIES :=
 
 # Função para resolver dependências recursivamente
-define resolve_dependencies
+define scan_dependencies
   $(foreach dep,$(1),\
     $(if $(filter $(dep),$(ALL_DEPENDENCIES)),,\
-	  $(eval CURRENT_COMPONENT := $(dep)) \
-	  $(eval CURRENT_COMPONENT_DIRECTORY := $(DIRS_LIBRARIES)/$(dep)) \
-	  $(eval CURRENT_TARGET := $(DIRS_BUILD)/$(DIRS_LIBRARIES)/lib$(dep).a) \
-	  $(eval CURRENT_TARGET_DIRECTORY := $(DIRS_BUILD)/$(DIRS_LIBRARIES)/$(dep)) \
+			$(eval CURRENT_COMPONENT := $(dep)) \
+			$(eval CURRENT_COMPONENT_DIRECTORY := $(DIRS_LIBRARIES)/$(dep)) \
+			$(eval CURRENT_TARGET := $(DIRS_BUILD)/$(DIRS_LIBRARIES)/lib$(dep).a) \
+			$(eval CURRENT_TARGET_DIRECTORY := $(DIRS_BUILD)/$(DIRS_LIBRARIES)/$(dep)) \
       $(eval include $(DIRS_LIBRARIES)/$(dep)/makefile.mk) \
-      $(eval ALL_DEPENDENCIES += $(dep)) \
-      $(call resolve_dependencies,$(COMPONENT_DEPENDENCIES)) \
+      $(call scan_dependencies,$(COMPONENT_DEPENDENCIES)) \
+			$(eval ALL_DEPENDENCIES += $(dep)) \
     )\
   )
 endef
 
+
 # Gatilho para resolver as dependências
-$(eval $(call resolve_dependencies,$(PROJECT_DEPENDENCIES)))
+$(eval $(call scan_dependencies,$(PROJECT_DEPENDENCIES)))
 
 # Geração automática dos diretórios de inclusão
 DEPENDENCIES_INCLUDE_DIRS := $(addprefix -Ilibs/, $(addsuffix /include, $(ALL_DEPENDENCIES)))
@@ -87,10 +91,12 @@ DEPENDENCIES_LIBRARY_DIRS := $(addprefix -L$(DIRS_BUILD)/libs/, $(ALL_DEPENDENCI
 DEPENDENCIES_LIBRARY_FLAGS := $(addprefix -l, $(ALL_DEPENDENCIES))
 DEPENDENCIES_OBJECTS := $(addprefix $(DIRS_BUILD)/libs/lib, $(addsuffix .a, $(ALL_DEPENDENCIES)))
 
+
+
 # Exemplo de uso
 print:
 	@echo "Projeto usa: $(PROJECT_DEPENDENCIES)"
-	@echo "Tudo que será incluído: $(ALL_DEPENDENCIES)"
+	@echo "Lista de todas as dependências : $(ALL_DEPENDENCIES)"
 	@echo "Includes para o compilador: $(DEPENDENCIES_INCLUDE_DIRS)"
 	@echo "LIB DIRS para o compilador: $(DEPENDENCIES_LIBRARY_DIRS)"
 	@echo "LIB flags para o compilador: $(DEPENDENCIES_LIBRARY_FLAGS)"
@@ -100,16 +106,48 @@ print:
 
 # RULES
 $(DIRS_BUILD)/startup.o: $(DIRS_STARTUP)/$(STARTUP_FILENAME)
-	@echo "Building startup code..."
+	@echo "Building startup code at $@"
 	@mkdir -p $(@D)
 	$(TOOLCHAIN_CC) -c $< $(CCFLAGS) -o $@
 
-$(DIRS_FIRMWARE)/$(PROJECT_NAME).elf: $(DIRS_SOURCE)/main.c $(DIRS_BUILD)/$(DIRS_STARTUP)/startup.o 
-	@echo "Building firmware..."
+$(DIRS_FIRMWARE)/$(PROJECT_NAME).elf: $(DIRS_SOURCE)/main.cxx $(DIRS_BUILD)/startup.o $(DEPENDENCIES_OBJECTS)
+	@echo "Building firmware at $@"
 	@mkdir -p $(@D)
-	$(TOOLCHAIN_CC) -c $< $(CCFLAGS) -o $@
-	$(TOOLCHAIN_CC) -o $@ $^ $(LDFLAGS)
+	$(TOOLCHAIN_CXX) -o $@  $^ $(LDFLAGS) $(CXXFLAGS) $(DEPENDENCIES_INCLUDE_DIRS) 
 
+$(DIRS_FIRMWARE)/$(PROJECT_NAME).lst: $(DIRS_FIRMWARE)/$(PROJECT_NAME).elf
+	@echo "Building $@ ..."
+	@$(TOOLCHAIN_OBJDUMP) -S $^ > $@
+
+$(DIRS_FIRMWARE)/$(PROJECT_NAME).map: $(DIRS_FIRMWARE)/$(PROJECT_NAME).elf
+	@echo "Building $2 ..."
+	@$(TOOLCHAIN_OBJDUMP) -t $^ > $@
+
+$(DIRS_FIRMWARE)/$(PROJECT_NAME).bin: $(DIRS_FIRMWARE)/$(PROJECT_NAME).elf
+	@echo "Building $@ ..."
+	@$(TOOLCHAIN_OBJCOPY) -O binary $< $@
+
+$(DIRS_FIRMWARE)/$(PROJECT_NAME).hex: $(DIRS_FIRMWARE)/$(PROJECT_NAME).elf
+	@echo "Building $@ ..."
+	@$(TOOLCHAIN_OBJCOPY) -O ihex $< $@
+
+$(DIRS_FIRMWARE)/$(PROJECT_NAME).asm: $(DIRS_FIRMWARE)/$(PROJECT_NAME).elf
+	@echo "Disassembling to $@ ..."
+	@$(TOOLCHAIN_OBJDUMP) -d -C  $< > $@
+
+
+all: $(DIRS_FIRMWARE)/$(PROJECT_NAME).elf $(DIRS_FIRMWARE)/$(PROJECT_NAME).lst $(DIRS_FIRMWARE)/$(PROJECT_NAME).map $(DIRS_FIRMWARE)/$(PROJECT_NAME).bin $(DIRS_FIRMWARE)/$(PROJECT_NAME).hex $(DIRS_FIRMWARE)/$(PROJECT_NAME).asm size
+
+size: $(DIRS_FIRMWARE)/$(PROJECT_NAME).elf
+	@echo "------------------"
+	@echo "FLASH: $(shell $(TOOLCHAIN_OBJSIZE) -d $< | awk '/[0-9]/ {print $$1 + $$2}') bytes"
+	@echo "SRAM:  $(shell $(TOOLCHAIN_OBJSIZE) -d $< | awk '/[0-9]/ {print $$2 + $$3}') bytes"
+	@echo "------------------"
+
+
+clean:
+	@echo "Cleaning all up ..."
+	@rm -rf $(DIRS_FIRMWARE) $(DIRS_BUILD)
 
 
 

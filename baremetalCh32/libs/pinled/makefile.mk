@@ -1,6 +1,6 @@
 # COMPONENT CONFIGURATION
-COMPONENT_DEPENDENCIES      := bare
-COMPONENT_SOURCE_FILES      := bitview.cppm
+COMPONENT_DEPENDENCIES      := 
+COMPONENT_SOURCE_FILES      :=  pinled.cppm
 
 # INFERED VALUES
 COMPONENT_NAME              := $(CURRENT_COMPONENT)
@@ -13,8 +13,9 @@ COMPONENT_OBJECT_FILES :=   $(patsubst %.cpp,$(COMPONENT_TARGET_DIRECTORY)/%.o, 
                             $(patsubst %.cxx,$(COMPONENT_TARGET_DIRECTORY)/%.o, \
                             $(patsubst %.cxxm,$(COMPONENT_TARGET_DIRECTORY)/%.o, \
                             $(patsubst %.c,$(COMPONENT_TARGET_DIRECTORY)/%.o, $(COMPONENT_SOURCE_FILES))))))
-														
+
 COMPONENT_DEPENDENCIES_OBJECTS :=  $(addprefix $(DIRS_BUILD)/$(DIRS_LIBRARIES)/lib, $(addsuffix .a, $(COMPONENT_DEPENDENCIES)))
+
 
 
 ${COMPONENT_TARGET}: $(COMPONENT_OBJECT_FILES)

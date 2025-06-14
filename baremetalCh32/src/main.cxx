@@ -63,6 +63,14 @@ int main(void) {
      */
     FieldLedSet::write(true); // set led
     DLY_ms(50);                                  // wait a bit
+    FieldLedReset::write(true); //reset led
+    DLY_ms(50);                             
+    FieldLedSet::write(true); // set led
+    DLY_ms(50);                                  // wait a bit
+    FieldLedReset::write(true); //reset led
+    DLY_ms(50);                             
+    FieldLedSet::write(true); // set led
+    DLY_ms(50);
       /*
       Clear led
      */

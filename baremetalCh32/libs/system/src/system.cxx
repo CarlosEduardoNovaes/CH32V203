@@ -10,7 +10,7 @@
 //
 // 2023 by Stefan Wagner:   https://github.com/wagiminator
 
-#include "system.h"
+#include "system/system.h"
 
 // ===================================================================================
 // Setup Microcontroller (this function is called automatically at startup)
