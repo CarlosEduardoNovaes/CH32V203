@@ -1,0 +1,7 @@
+
+#
+# CPU Configuration
+#
+CONFIG_CPU_MODEL="CH32V203"
+CONFIG_USE_USB=y
+# end of CPU Configuration

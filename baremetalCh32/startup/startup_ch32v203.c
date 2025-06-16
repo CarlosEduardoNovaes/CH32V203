@@ -1,9 +1,6 @@
-#include "startup_ch32v203.h"
-// ===================================================================================
-// C++ Support
-// ===================================================================================
-// #ifdef __cplusplus
-#warning("Compilando Suporte C++")
+#include <stdint.h>
+#define SYS_USE_VECTORS   1         // 1: create interrupt vector table
+
 extern void __cxa_pure_virtual() { while (1); }
 extern void (*__preinit_array_start[]) (void) __attribute__((weak));
 extern void (*__preinit_array_end[]) (void) __attribute__((weak));
@@ -17,7 +14,7 @@ void __libc_init_array(void) {
   count = __init_array_end - __init_array_start;
   for (i = 0; i < count; i++) __init_array_start[i]();
 }
-// #endif
+
 
 // ===================================================================================
 // C version of CH32V203 Startup .s file from WCH
@@ -219,10 +216,9 @@ void reset_handler(void) {
   while(dst < &_ebss) *dst++ = 0;
   #endif
 
-  // C++ Support
-  //#ifdef __cplusplus
+
   __libc_init_array();
-  //#endif
+
 
   // Init system
   

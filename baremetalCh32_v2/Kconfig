@@ -1,0 +1,19 @@
+menu "CPU Configuration"
+
+choice CPU_MODEL
+    prompt "CPU Model"
+    default CPU_MODEL_CH32V203
+
+    config CPU_MODEL_CH32V203
+        bool "CPU_MODEL_CH32V203"
+    config CPU_MODEL_CH32V305
+        bool "CPU_MODEL_CH32V305"
+endchoice
+
+config USE_USB
+    bool "Enable USB support"
+    default y
+
+
+
+endmenu
