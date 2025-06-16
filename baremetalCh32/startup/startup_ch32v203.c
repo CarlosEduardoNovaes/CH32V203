@@ -2,7 +2,8 @@
 // ===================================================================================
 // C++ Support
 // ===================================================================================
-//#ifdef __cplusplus
+// #ifdef __cplusplus
+#warning("Compilando Suporte C++")
 extern void __cxa_pure_virtual() { while (1); }
 extern void (*__preinit_array_start[]) (void) __attribute__((weak));
 extern void (*__preinit_array_end[]) (void) __attribute__((weak));
@@ -16,7 +17,7 @@ void __libc_init_array(void) {
   count = __init_array_end - __init_array_start;
   for (i = 0; i < count; i++) __init_array_start[i]();
 }
-//#endif
+// #endif
 
 // ===================================================================================
 // C version of CH32V203 Startup .s file from WCH

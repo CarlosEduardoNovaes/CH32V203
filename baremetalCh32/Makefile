@@ -28,22 +28,23 @@ TOOLCHAIN_OBJSIZE  = $(TOOLCHAIN_PREFIX)-size
 NEWLIB   = /usr/include/newlib
 ISPTOOL  = chprog $(DIRS_FIRMWARE)/$(PROJECT_NAME).bin
 
+# Files and Folders
+DIRS_FIRMWARE               := firmware
+DIRS_BUILD                  := build
+DIRS_STARTUP                := startup
+DIRS_LIBRARIES              := libs
+DIRS_SOURCE                 := src
 
 
 
 # Microcontroller Settings
-CPU_MODEL					:= CH32V203x6
-F_CPU   					:= 144000000
-LDSCRIPT 					:= ch32v203x6.ld
-CPUARCH  					:= -march=rv32imac -mabi=ilp32
-STARTUP_FILENAME			:= startup_ch32v203.c
+CPU_MODEL                   := CH32V203x6
+F_CPU                       := 144000000
+LDSCRIPT                    := ch32v203x6.ld
+CPUARCH                     := -march=rv32imac -mabi=ilp32
+STARTUP_FILENAME            := startup_ch32v203.c
 
-# Files and Folders
-DIRS_FIRMWARE			    := firmware
-DIRS_BUILD                  := build
-DIRS_STARTUP     	        := startup
-DIRS_LIBRARIES              := libs
-DIRS_SOURCE                 := src
+
 
 
 # Compiler Flags
