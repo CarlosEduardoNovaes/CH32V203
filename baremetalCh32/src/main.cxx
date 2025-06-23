@@ -51,6 +51,7 @@ extern "C"
 int main(void) {
   // System Init
   SYS_init();
+    NVIC_EnableIRQ(SysTicK_IRQn);     // enable the SysTick IRQ
   // Setup
   //PIN_output(PIN_LED);                            // set LED pin to output
   pinled::init();
@@ -68,6 +69,10 @@ int main(void) {
     DLY_ms(50);                             
     FieldLedSet::write(true); // set led
     DLY_ms(50);                                  // wait a bit
+    FieldLedReset::write(true); //reset led
+    DLY_ms(50);                             
+    FieldLedSet::write(true); // set led
+    DLY_ms(50);
     FieldLedReset::write(true); //reset led
     DLY_ms(50);                             
     FieldLedSet::write(true); // set led

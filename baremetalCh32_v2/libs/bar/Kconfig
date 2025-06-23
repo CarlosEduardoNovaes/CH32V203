@@ -1,0 +1,3 @@
+config CONFIG_USELIB_BAR
+  bool "Enable libbar?"
+  select CONFIG_USELIB_FOO

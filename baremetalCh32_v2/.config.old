@@ -1,7 +1,28 @@
 
 #
+# Toolchain
+#
+CONFIG_TOOLCHAIN_DOWNLOAD=y
+CONFIG_TOOLCHAIN_DOWNLOAD_PATH="https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v14.2.0-3/xpack-riscv-none-elf-gcc-14.2.0-3-linux-x64.tar.gz"
+# end of Toolchain
+
+#
 # CPU Configuration
 #
-CONFIG_CPU_MODEL="CH32V203"
-CONFIG_USE_USB=y
+# CONFIG_CPU_MODEL_CH32V203 is not set
+CONFIG_CPU_MODEL_CH32V305=y
+# CONFIG_CPU_MODEL_CH32V307 is not set
+CONFIG_USE_FPU=y
 # end of CPU Configuration
+
+#
+# LIBS Configuration
+#
+
+#
+# Lib Foo
+#
+CONFIG_LIB_FOO_A=y
+# CONFIG_LIB_FOO_B is not set
+# end of Lib Foo
+# end of LIBS Configuration

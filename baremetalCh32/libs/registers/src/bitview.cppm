@@ -37,8 +37,9 @@ class RegisterOperation
         bare::uint8_t       TPF_Offset,
         bare::uint8_t       TPF_Size,
         class               TPF_FieldType,
-        bare::uint8_t       TPF_ArraySize,
-        bare::uint8_t       TPF_ArrayNullBits
+        bare::uint16_t      TPF_ArraySize,
+        bare::uint16_t      TPF_ArrayNullBits,
+        bare::uint8_t       TPF_ByteAlign
     >
     friend class BitView;
     
@@ -159,8 +160,9 @@ template<
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
     class                   TP_FieldType = TP_RegType,
-    bare::uint8_t           TP_ArraySize = 1,
-    bare::uint8_t           TP_ArrayNullBits = 0
+    bare::uint16_t          TP_ArraySize = 1,
+    bare::uint16_t          TP_ArrayNullBits = 0,
+    bare::uint8_t           TP_ByteAlign = 4
 >
 class BitView
 {
@@ -191,14 +193,27 @@ class BitView
      */
     static inline __attribute__((always_inline)) [[nodiscard]]
     constexpr RegisterOperation<TP_RegType, TP_Addr> prepare(TP_RegType value=0) {
-        return RegisterOperation<TP_RegType, TP_Addr>((value<<TP_Offset), (c_reg_mask));
+        return RegisterOperation<TP_RegType, TP_Addr>(
+            (value<<TP_Offset),
+            (c_val_mask<<TP_Offset)
+        );
     };
 
     template<bare::uint8_t TP_ArrayIndex>
     static inline __attribute__((always_inline)) [[nodiscard]]
-    constexpr RegisterOperation<TP_RegType, TP_Addr> prepareAt(TP_RegType value=0) {
+    constexpr RegisterOperation<
+        TP_RegType,
+        TP_Addr + ((TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits)) / (8*TP_ByteAlign))*TP_ByteAlign
+        > prepareAt(TP_RegType value=0) {
         static_assert(TP_ArrayIndex<TP_ArraySize, "Cannot index more itens than array size");
-        return RegisterOperation<TP_RegType, TP_Addr>((value<<(TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits))), (c_reg_mask));
+        constexpr bare::uint32_t final_bit_offset = (TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits)) % (8*TP_ByteAlign);
+        return RegisterOperation<
+            TP_RegType,
+            TP_Addr + ((TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits)) / (8*TP_ByteAlign))*TP_ByteAlign
+            >( 
+            ( value << (TP_Offset+final_bit_offset) ),
+            ( c_val_mask << (TP_Offset+final_bit_offset) )
+            );
     };
 
     /**
@@ -246,27 +261,30 @@ export template<
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
     class                   TP_FieldType = bare::uint32_t,
-    bare::uint8_t           TP_ArraySize = 1,
-    bare::uint8_t           TP_ArrayNullBits = 0
+    bare::uint16_t          TP_ArraySize = 1,
+    bare::uint16_t          TP_ArrayNullBits = 0,
+    bare::uint8_t           TP_ByteAlign = 4
 >
-using BitView32 = BitView<bare::uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
+using BitView32 = BitView<bare::uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits, TP_ByteAlign>;
 
 export template<
     bare::uintptr_t         TP_Addr, // for real use
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
     class                   TP_FieldType = bare::uint16_t,
-    bare::uint8_t           TP_ArraySize = 1,
-    bare::uint8_t           TP_ArrayNullBits = 0
+    bare::uint16_t          TP_ArraySize = 1,
+    bare::uint16_t          TP_ArrayNullBits = 0,
+    bare::uint8_t           TP_ByteAlign = 4
 >
-using BitView16 = BitView<bare::uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
+using BitView16 = BitView<bare::uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits, TP_ByteAlign>;
 
 export template<
     bare::uintptr_t         TP_Addr, // for real use
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
     class                   TP_FieldType = bare::uint8_t,
-    bare::uint8_t           TP_ArraySize = 1,
-    bare::uint8_t           TP_ArrayNullBits = 0
+    bare::uint16_t          TP_ArraySize = 1,
+    bare::uint16_t          TP_ArrayNullBits = 0,
+    bare::uint8_t           TP_ByteAlign = 4
 >
-using BitView8 = BitView<bare::uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits>;
+using BitView8 = BitView<bare::uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits, TP_ByteAlign>;

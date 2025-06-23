@@ -1,12 +1,41 @@
 #include <cstdint>
 
+template<
+    class           TP_RegType,
+    uintptr_t       TP_Addr
+>
+class Snapshot
+{
+    public:
+    Snapshot(TP_RegType v) {value = v;};
+    TP_RegType value;
+};
 
 template<
     class           TP_RegType,
-    // TP_RegType*     TP_Addr 
-    uintptr_t       TP_Addr  // for real use
+    uintptr_t       TP_Addr
 >
-class RegisterOperation
+class RegisterAccessor
+{
+    public:    
+    inline __attribute__((always_inline))
+    static constexpr Snapshot<TP_RegType, TP_Addr> getSnapshot()
+    {
+        return Snapshot<TP_RegType, TP_Addr>(getReference());
+    };
+    protected:
+    inline __attribute__((always_inline))
+    static constexpr volatile TP_RegType& getReference()
+    {
+        return *reinterpret_cast<volatile TP_RegType*>(TP_Addr);
+    };
+};
+
+template<
+    class           TP_RegType,
+    uintptr_t       TP_Addr
+>
+class RegisterOperation : public RegisterAccessor<TP_RegType, TP_Addr>
 {
     private:
     /**
@@ -16,8 +45,7 @@ class RegisterOperation
     */
     template<
         class           TPF_RegType,
-        //TPF_RegType*     TPF_Addr, // for testing fake registers
-        uintptr_t       TPF_Addr, // for real use
+        uintptr_t       TPF_Addr,
         int8_t          TPF_Offset,
         int8_t          TPF_Size,
         class           TPF_FieldType
@@ -39,19 +67,7 @@ class RegisterOperation
     m_mask(mask)
     {};
 
-    // public:     
-
-    /**
-     * @brief returns the register address as a reference
-     * 
-     * @return constexpr volatile& 
-     */
-    inline __attribute__((always_inline))
-    static constexpr volatile TP_RegType& m_reg()
-    {
-        return *reinterpret_cast<volatile TP_RegType*>(TP_Addr);
-    };
-
+        
     public:
     /**
      * @brief Deleted default constructor
@@ -77,37 +93,35 @@ class RegisterOperation
     inline __attribute__((always_inline))
     void apply() const
     {
-        m_reg() = (m_reg() & ~m_mask) | m_value;
+        //RegisterOperation::getReference() = (RegisterOperation::getReference() & ~m_mask) | m_value;
+        RegisterOperation::getReference() = (RegisterOperation::getReference() & ~m_mask) | m_value;
     };
 
     /**
      * @brief Read the register value
-     * 
      * @return TP_RegType 
      */
-    inline __attribute__((always_inline))
-    TP_RegType read() const
-    {
-        return m_reg();
-    };
+    // inline __attribute__((always_inline))
+    // static constexpr TP_RegType read()
+    // {
+    //     return RegisterOperation::getSnapshot().value;
+    // };
+
 
     /**
      * @brief Clear the mask bits in the register
-     * 
      */
     inline __attribute__((always_inline))
     void clearMaskBits() const {
-        m_reg() &= ~m_mask;
+        RegisterOperation::getReference() &= ~m_mask;
     };
 
     /**
      * @brief Set the mask bits in the register
-     * 
-     * 
      */
     inline __attribute__((always_inline))    
     void setMaskBits() const {
-        m_reg() |= m_mask;
+        RegisterOperation::getReference() |= m_mask;
     };
 
     
@@ -126,50 +140,95 @@ class RegisterOperation
 
 
 template<
-    class           TP_RegType,
-    uintptr_t       TP_Addr, // for real use
-    int8_t          TP_Offset,
-    int8_t          TP_Size,
-    class           TP_FieldType = TP_RegType
+    class               TP_RegType,
+    uintptr_t           TP_Addr,
+    int8_t              TP_Offset,
+    int8_t              TP_Size,
+    class               TP_FieldType = TP_RegType
 >
 class BitView
 {
     private:
     static constexpr TP_RegType c_val_mask = ((1u << TP_Size) - 1); // mask for the field value
-    static constexpr TP_RegType c_reg_mask = c_val_mask << TP_Offset; // mask for the register memory
+    
+
+    template <typename... Args>
+    BitView(Args...) = delete; // Deletes all constructors
     
     public:
-    static inline __attribute__((always_inline)) [[nodiscard]]
-    constexpr RegisterOperation<TP_RegType, TP_Addr> prepare(TP_RegType value=0) {
-        return RegisterOperation<TP_RegType, TP_Addr>((value<<TP_Offset), (c_reg_mask));
+    inline __attribute__((always_inline)) [[nodiscard]]
+    static constexpr RegisterOperation<TP_RegType, TP_Addr>
+    prepare(TP_RegType value=0) {
+        return RegisterOperation<TP_RegType, TP_Addr>(
+            (value<<TP_Offset),
+            (c_val_mask<<TP_Offset)
+            );
     };
     
-    static constexpr inline __attribute__((always_inline))
-    TP_RegType read() {
+    inline __attribute__((always_inline))
+    static constexpr
+    TP_FieldType read() {
+        return readFromSnapshot(prepare().getSnapshot());
+    };
+
+    inline __attribute__((always_inline))
+    static constexpr
+    TP_FieldType readFromSnapshot(Snapshot<TP_RegType, TP_Addr> snap) {
+        return (snap.value >> TP_Offset) & c_val_mask;        
+    };
+
+    //Snapshot<TP_RegType, TP_Addr>
+
+    inline __attribute__((always_inline))
+    static constexpr
+    TP_RegType readSnapshot() {
         return (prepare().read() >> TP_Offset) & c_val_mask;        
     };
 
-    static constexpr inline __attribute__((always_inline))
+
+    inline __attribute__((always_inline))
+    static constexpr
     void write(TP_RegType v)
     {
         prepare(v).apply();
     };
+
 };
 
-template<uintptr_t TP_BaseAddr>
-class MyRegTmpl
+
+template<
+    class           TP_RegType,
+    uintptr_t       TP_Addr
+>
+class MyRegTmpl : public RegisterAccessor<TP_RegType, TP_Addr>
 {
     public:
-    using field1 = BitView<uint32_t, TP_BaseAddr, 0, 1, bool>;
-    using field2 = BitView<uint32_t, TP_BaseAddr, 1, 1, bool>;
+    using field1 = BitView<uint32_t, TP_Addr, 0, 1, bool>;
+    using field2 = BitView<uint32_t, TP_Addr, 1, 1, bool>;
+    using field3 = BitView<uint32_t, TP_Addr, 2, 1, bool>;
 };
 
-using MyReg = MyRegTmpl<40010020>;
+template<
+    class           TP_RegType,
+    uintptr_t       TP_Addr
+>
+class MyRegTmplTwo : public RegisterAccessor<TP_RegType, TP_Addr>
+{
+    public:
+    using field1 = BitView<uint32_t, TP_Addr, 0, 2, uint8_t>;
+    using field2 = BitView<uint32_t, TP_Addr, 1, 2, uint8_t>;
+};
+
+using MyReg = MyRegTmpl<uint32_t, 40010020>;
+using MyRegTwo = MyRegTmplTwo<uint32_t, 40010020>;
 
 using myreg = BitView<uint32_t, 40010020, 0, 1, bool>;
 using myreg1 = BitView<uint32_t, 40010020, 1, 1, bool>;
 volatile bool b1 = true;
 volatile bool b2 = true;
+volatile bool b3 = true;
+volatile uint8_t flag = 0;
+
 
 int main()
 {
@@ -204,9 +263,19 @@ int main()
     // (
     //     myreg::prepare(b1) | myreg1::prepare(b2)
     // ).apply();
-    (
-        MyReg::field1::prepare(b1) | MyReg::field2::prepare(b2)
-    ).apply();
+    // (
+    //     MyReg::field1::prepare(b1) | MyReg::field2::prepare(b2)
+    // ).apply();
+
+    // b1 = MyReg::field1::read();
+    // b2 = MyReg::field2::read();
+    //b3 = MyReg::field3::read();
+    
+    auto snap = MyReg::getSnapshot();
+    b1 = MyReg::field1::readFromSnapshot(snap);
+    b2 = MyReg::field2::readFromSnapshot(snap);
+    // b3 = MyReg::field3::readFromSnapshot(snap);
+    //MyReg::field1::write(b1);
     
     
     // 5 extra lines on -O0 x86-64, 7 on riscv
@@ -217,5 +286,6 @@ int main()
     // static constexpr auto setup1 = myreg::prepare(true) | myreg1::prepare(true);
     // setup1.apply();
 
+    return 0;
 
 };

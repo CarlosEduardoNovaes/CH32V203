@@ -28,7 +28,7 @@ extern uint32_t _edata;
 // Prototypes
 int main(void)                __attribute__((section(".text.main"), used));
 void jump_reset(void)         __attribute__((section(".init.jump"), naked, used));
-const uint32_t init_data[]    __attribute__((section(".init.data"), used));
+// const uint32_t init_data[]    __attribute__((section(".init.data"), used));
 void (*const vectors[])(void) __attribute__((section(".vector"), used));
 void reset_handler(void)      __attribute__((section(".text.reset_handler"), naked, used));
 
@@ -98,13 +98,13 @@ DUMMY_HANDLER void DMA1_Channel8_IRQHandler(void);
 // FLASH starts with a jump to the reset handler
 void jump_reset(void) { asm volatile("j reset_handler"); }
 
-// Afterwards there comes some data
-const uint32_t init_data[] = {
-  0x00000013, 0x00000013, 0x00000013, 0x00000013,
-  0x00000013, 0x00000013, 0x00000013, 0x00000013,
-  0x00000013, 0x00000013, 0x00000013, 0x00000013,
-  0x00100073
-};
+// // Afterwards there comes some data
+// const uint32_t init_data[] = {
+//   0x00000013, 0x00000013, 0x00000013, 0x00000013,
+//   0x00000013, 0x00000013, 0x00000013, 0x00000013,
+//   0x00000013, 0x00000013, 0x00000013, 0x00000013,
+//   0x00100073
+// };
 
 // Interrupt vector table
 void (* const vectors[])(void) = {

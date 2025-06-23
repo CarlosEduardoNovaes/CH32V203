@@ -42,6 +42,9 @@ CPU_MODEL                   := CH32V203x6
 F_CPU                       := 144000000
 LDSCRIPT                    := ch32v203x6.ld
 CPUARCH                     := -march=rv32imac -mabi=ilp32
+#CPUARCH                     := -march=rv32imafc -mabi=ilp32f
+#CPUARCH                     := -march=rv32imacxw, -march=rv32emacxw, -march=rv32gcxw
+#CPUARCH                     := -mabi=ilp32, -mabi=ilp32e
 STARTUP_FILENAME            := startup_ch32v203.c
 
 

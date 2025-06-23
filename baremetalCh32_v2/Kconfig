@@ -1,19 +1,38 @@
+menu "Toolchain"
+  config TOOLCHAIN_DOWNLOAD
+    bool "Download Local Toolchain?"
+    default y
+  config TOOLCHAIN_DOWNLOAD_PATH
+    string "Path to git tarball"
+    default "https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases/download/v14.2.0-3/xpack-riscv-none-elf-gcc-14.2.0-3-linux-x64.tar.gz"
+    
+endmenu
+
 menu "CPU Configuration"
 
 choice CPU_MODEL
-    prompt "CPU Model"
-    default CPU_MODEL_CH32V203
+  prompt "CPU Model"
+  default CPU_MODEL_CH32V203
 
-    config CPU_MODEL_CH32V203
-        bool "CPU_MODEL_CH32V203"
-    config CPU_MODEL_CH32V305
-        bool "CPU_MODEL_CH32V305"
+  config CPU_MODEL_CH32V203
+    bool "CH32V203"
+  config CPU_MODEL_CH32V305
+    bool "CH32V305"
+  config CPU_MODEL_CH32V307
+    bool "CH32V307"
 endchoice
 
-config USE_USB
-    bool "Enable USB support"
-    default y
-
-
-
+config USE_FPU
+  bool "Use Floating Point Unit"
+  default "y"
+  depends on CPU_MODEL_CH32V305 || CPU_MODEL_CH32V307
 endmenu
+
+
+
+menu "LIBS Configuration"
+orsource "libs/*/Kconfig"
+endmenu
+
+
+

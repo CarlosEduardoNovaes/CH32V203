@@ -1,0 +1,2 @@
+config CONFIG_USELIB_BARE
+  bool "Enable libbare?"

@@ -1,0 +1,19 @@
+config CONFIG_USELIB_FOO
+  bool "Enable libfoo?"
+  default "n"
+  select CONFIG_USELIB_BARE
+
+menu "Lib Foo Configuration"
+depends on CONFIG_USELIB_FOO
+
+choice CONFIG_LIB_FOO
+    prompt "LIB FOO STYLE"
+    default CONFIG_LIB_FOO_A
+
+    config CONFIG_LIB_FOO_A
+        bool "Style A"
+    config CONFIG_LIB_FOO_B
+        bool "Style B"
+endchoice
+
+endmenu
