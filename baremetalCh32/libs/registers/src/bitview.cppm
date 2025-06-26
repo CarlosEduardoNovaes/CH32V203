@@ -10,6 +10,52 @@ import bare; // for is_integral and is_enum
  */
 export module registers;
 
+export
+/**
+ * @brief Implement Register Snapshot
+ * @details This class wrap the primitive type TP_RegType
+ * 
+ * @tparam TP_RegType A primitive type
+ * @tparam TP_Addr Register Address 
+ */
+template<
+    class               TP_RegType,
+    bare::uintptr_t     TP_Addr
+>
+class Snapshot
+{
+    public:
+    Snapshot(TP_RegType v) {value = v;};
+    TP_RegType value;
+};
+
+export
+/**
+ * @brief Implement RegisterAccessor class
+ * @details This class provides access to the hardware register and is base for Register and RegisterOperation classes
+ * 
+ * @tparam TP_RegType 
+ * @tparam TP_Addr 
+ */
+template<
+    class               TP_RegType,
+    bare::uintptr_t     TP_Addr
+>
+class RegisterAccessor
+{
+    public:    
+    inline __attribute__((always_inline))
+    static constexpr Snapshot<TP_RegType, TP_Addr> getSnapshot()
+    {
+        return Snapshot<TP_RegType, TP_Addr>(getReference());
+    };
+    protected:
+    inline __attribute__((always_inline))
+    static constexpr volatile TP_RegType& getReference()
+    {
+        return *reinterpret_cast<volatile TP_RegType*>(TP_Addr);
+    };
+};
 
 export 
 /**
@@ -23,7 +69,7 @@ template<
     class                   TP_RegType,
     bare::uintptr_t         TP_Addr
 >
-class RegisterOperation
+class RegisterOperation : public RegisterAccessor<TP_RegType, TP_Addr>
 {
     private:
     /**
@@ -33,18 +79,15 @@ class RegisterOperation
     */
     template<
         class               TPF_RegType,
-        bare::uintptr_t     TPF_Addr, 
+        bare::uintptr_t     TPF_Addr,
         bare::uint8_t       TPF_Offset,
         bare::uint8_t       TPF_Size,
-        class               TPF_FieldType,
-        bare::uint16_t      TPF_ArraySize,
-        bare::uint16_t      TPF_ArrayNullBits,
-        bare::uint8_t       TPF_ByteAlign
+        class               TPF_FieldType
     >
     friend class BitView;
     
-    TP_RegType          m_value; // value to set
-    TP_RegType          m_mask; // mask to clear
+    TP_RegType              m_value; // value to set
+    TP_RegType              m_mask; // mask to clear
 
     /**
      * @brief Construct a new Register Operation object
@@ -58,19 +101,7 @@ class RegisterOperation
     m_mask(mask)
     {};
 
-    // public:     
-
-    /**
-     * @brief returns the register address as a reference
-     * 
-     * @return constexpr volatile& 
-     */
-    inline __attribute__((always_inline))
-    static constexpr volatile TP_RegType& m_reg()
-    {
-        return *reinterpret_cast<volatile TP_RegType*>(TP_Addr);
-    };
-
+        
     public:
     /**
      * @brief Deleted default constructor
@@ -96,37 +127,35 @@ class RegisterOperation
     inline __attribute__((always_inline))
     void apply() const
     {
-        m_reg() = (m_reg() & ~m_mask) | m_value;
+        //RegisterOperation::getReference() = (RegisterOperation::getReference() & ~m_mask) | m_value;
+        RegisterOperation::getReference() = (RegisterOperation::getReference() & ~m_mask) | m_value;
     };
 
     /**
      * @brief Read the register value
-     * 
      * @return TP_RegType 
      */
     inline __attribute__((always_inline))
-    TP_RegType read() const
+    static constexpr TP_RegType read()
     {
-        return m_reg();
+        return RegisterOperation::getSnapshot().value;
     };
+
 
     /**
      * @brief Clear the mask bits in the register
-     * 
      */
     inline __attribute__((always_inline))
     void clearMaskBits() const {
-        m_reg() &= ~m_mask;
+        RegisterOperation::getReference() &= ~m_mask;
     };
 
     /**
      * @brief Set the mask bits in the register
-     * 
-     * 
      */
     inline __attribute__((always_inline))    
     void setMaskBits() const {
-        m_reg() |= m_mask;
+        RegisterOperation::getReference() |= m_mask;
     };
 
     
@@ -159,97 +188,54 @@ template<
     bare::uintptr_t         TP_Addr, // for real use
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
-    class                   TP_FieldType = TP_RegType,
-    bare::uint16_t          TP_ArraySize = 1,
-    bare::uint16_t          TP_ArrayNullBits = 0,
-    bare::uint8_t           TP_ByteAlign = 4
+    class                   TP_FieldType = TP_RegType
 >
 class BitView
 {
     private:
-    /**
-     * @brief static assertions to check the types of the template parameters
-     * 
-     */
-    static_assert(bare::is_integral_v<TP_RegType>, "RegType must be integral");
-    static_assert(
-        bare::is_integral_v<TP_FieldType> || bare::is_enum_v<TP_FieldType>,
-        "FieldType must be integral or enum with integral base"
-    );
-
-    
     static constexpr TP_RegType c_val_mask = ((1u << TP_Size) - 1); // mask for the field value
-    static constexpr TP_RegType c_reg_mask = c_val_mask << TP_Offset; // mask for the register memory
+    
 
     template <typename... Args>
     BitView(Args...) = delete; // Deletes all constructors
-
+    
     public:
-    /**
-     * @brief Return a RegisterOperation object to manipulate the register
-     * 
-     * @param value The value to set in the register
-     * @return constexpr RegisterOperation<TP_RegType, TP_Addr> 
-     */
-    static inline __attribute__((always_inline)) [[nodiscard]]
-    constexpr RegisterOperation<TP_RegType, TP_Addr> prepare(TP_RegType value=0) {
+    inline __attribute__((always_inline)) [[nodiscard]]
+    static constexpr RegisterOperation<TP_RegType, TP_Addr>
+    prepare(TP_RegType value=0) {
         return RegisterOperation<TP_RegType, TP_Addr>(
             (value<<TP_Offset),
             (c_val_mask<<TP_Offset)
-        );
-    };
-
-    template<bare::uint8_t TP_ArrayIndex>
-    static inline __attribute__((always_inline)) [[nodiscard]]
-    constexpr RegisterOperation<
-        TP_RegType,
-        TP_Addr + ((TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits)) / (8*TP_ByteAlign))*TP_ByteAlign
-        > prepareAt(TP_RegType value=0) {
-        static_assert(TP_ArrayIndex<TP_ArraySize, "Cannot index more itens than array size");
-        constexpr bare::uint32_t final_bit_offset = (TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits)) % (8*TP_ByteAlign);
-        return RegisterOperation<
-            TP_RegType,
-            TP_Addr + ((TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits)) / (8*TP_ByteAlign))*TP_ByteAlign
-            >( 
-            ( value << (TP_Offset+final_bit_offset) ),
-            ( c_val_mask << (TP_Offset+final_bit_offset) )
             );
     };
+    
+    inline __attribute__((always_inline))
+    static constexpr
+    TP_FieldType read() {
+        //return (prepare().read() >> TP_Offset ) & c_val_mask;
+        return readFromSnapshot(prepare().getSnapshot());
+    };
 
-    /**
-     * @brief read the value from the register
-     * 
-     * @return TP_RegType 
-     */
-    static constexpr inline __attribute__((always_inline)) [[nodiscard]]
-    TP_RegType read() {
+    inline __attribute__((always_inline))
+    static constexpr
+    TP_FieldType readFromSnapshot(Snapshot<TP_RegType, TP_Addr> snap) {
+        return (snap.value >> TP_Offset) & c_val_mask;
+    };
+
+    //Snapshot<TP_RegType, TP_Addr>
+
+    inline __attribute__((always_inline))
+    static constexpr
+    TP_RegType readSnapshot() {
         return (prepare().read() >> TP_Offset) & c_val_mask;        
     };
 
 
-    template<bare::uint8_t TP_ArrayIndex>
-    static constexpr inline __attribute__((always_inline)) [[nodiscard]]
-    TP_RegType readAt() {
-        return (prepareAt<TP_ArrayIndex>().read() >> (TP_Offset+TP_ArrayIndex*(TP_Size+TP_ArrayNullBits))) & c_val_mask;        
-    };
-    
-    /**
-     * @brief Set the value in the register
-     * 
-     * @param v The value to set in the register
-     */
-    static constexpr inline __attribute__((always_inline))
+    inline __attribute__((always_inline))
+    static constexpr
     void write(TP_RegType v)
     {
         prepare(v).apply();
-    };
-
-
-    template<bare::uint8_t TP_ArrayIndex>
-    static constexpr inline __attribute__((always_inline))
-    void writeAt(TP_RegType v)
-    {
-        prepareAt<TP_ArrayIndex>(v).apply();
     };
 
 };
@@ -257,34 +243,25 @@ class BitView
 
 // Specialized aliases
 export template<
-    bare::uintptr_t         TP_Addr, // for real use
+    bare::uintptr_t         TP_Addr,
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
-    class                   TP_FieldType = bare::uint32_t,
-    bare::uint16_t          TP_ArraySize = 1,
-    bare::uint16_t          TP_ArrayNullBits = 0,
-    bare::uint8_t           TP_ByteAlign = 4
+    class                   TP_FieldType = bare::uint32_t
 >
-using BitView32 = BitView<bare::uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits, TP_ByteAlign>;
+using BitView32 = BitView<bare::uint32_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
 
 export template<
-    bare::uintptr_t         TP_Addr, // for real use
+    bare::uintptr_t         TP_Addr,
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
-    class                   TP_FieldType = bare::uint16_t,
-    bare::uint16_t          TP_ArraySize = 1,
-    bare::uint16_t          TP_ArrayNullBits = 0,
-    bare::uint8_t           TP_ByteAlign = 4
+    class                   TP_FieldType = bare::uint16_t
 >
-using BitView16 = BitView<bare::uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits, TP_ByteAlign>;
+using BitView16 = BitView<bare::uint16_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;
 
 export template<
-    bare::uintptr_t         TP_Addr, // for real use
+    bare::uintptr_t         TP_Addr,
     bare::uint8_t           TP_Offset,
     bare::uint8_t           TP_Size,
-    class                   TP_FieldType = bare::uint8_t,
-    bare::uint16_t          TP_ArraySize = 1,
-    bare::uint16_t          TP_ArrayNullBits = 0,
-    bare::uint8_t           TP_ByteAlign = 4
+    class                   TP_FieldType = bare::uint8_t
 >
-using BitView8 = BitView<bare::uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType, TP_ArraySize, TP_ArrayNullBits, TP_ByteAlign>;
+using BitView8 = BitView<bare::uint8_t, TP_Addr, TP_Offset, TP_Size, TP_FieldType>;

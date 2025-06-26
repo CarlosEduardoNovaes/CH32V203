@@ -18,7 +18,7 @@ COMPONENT_DEPENDENCIES_OBJECTS :=  $(addprefix $(DIRS_BUILD)/$(DIRS_LIBRARIES)/l
 
 
 ${COMPONENT_TARGET}: $(COMPONENT_OBJECT_FILES)
-	@echo "Joining objects into: $@"
+	@echo "\e[38;2;255;255;128mJoining objects into:\e[0m $@"
 	@mkdir -p $(@D)
 	@$(TOOLCHAIN_AR) -rcs  $@ $^
 
